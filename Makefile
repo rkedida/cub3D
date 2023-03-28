@@ -6,7 +6,7 @@
 #    By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/03/20 22:28:55 by rkedida          ###   ########.fr        #
+#    Updated: 2023/03/28 17:49:59 by rkedida          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,15 @@ NAME			=	cub3D
 
 SRC				=	$(SRC_DIR)/main.c\
 					$(SRC_DIR)/parsing.c\
-					$(SRC_DIR)/parsing_map.c\
+					$(SRC_DIR)/load_configuration_file.c\
 					$(SRC_DIR)/validate_map.c\
 					$(SRC_DIR)/dfs_search.c\
 					$(SRC_DIR)/error.c\
-					$(SRC_DIR)/checkers.c\
+					$(SRC_DIR)/surrounded_walls.c\
 					$(SRC_DIR)/textures.c\
 					$(SRC_DIR)/key_hook_manager.c\
+					$(SRC_DIR)/compass_direction.c\
+					$(SRC_DIR)/parsing_config_info.c\
 					
 
 SRC_DIR			=	./src

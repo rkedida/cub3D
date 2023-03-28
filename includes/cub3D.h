@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/27 23:30:25 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/28 17:54:35 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 # define MAX_WINDOW_WIDTH 1920
 # define MAX_WINDOW_HEIGHT 1080
-
 
 typedef struct s_color
 {
@@ -57,14 +56,14 @@ typedef struct s_mapData
 	char				**west_path;
 	char				**east_path;
 
-	int				found_NO;
-	int				found_SO;
-	int				found_WE;
-	int				found_EA;
-	int				found_F;
-	int				found_C;
-	
-	bool			found_map;
+	int					found_no;
+	int					found_so;
+	int					found_we;
+	int					found_ea;
+	int					found_f;
+	int					found_c;
+
+	bool				found_map;
 
 	char				**floor;
 	char				**ceiling;
@@ -104,18 +103,35 @@ typedef struct s_windata
 	char	*relative_path;
 }				t_winData;
 
-
-// parsing_map.c
-void			open_file(t_mapData *Map);
-void			ft_append(char **str, char c);
-void			read_append_split_file(t_mapData *Map);
-void			parsing_map(t_mapData *Map);
+// surrounded _walls.c
+bool			up(t_mapData *Map, int i, int j);
+bool			down(t_mapData *Map, int i, int j);
+bool			left(t_mapData *Map, int i, int j);
+bool			right(t_mapData *Map, int i, int j);
+bool			check_surrounded_walls(t_mapData *Map);
 
 // validate_map.c
-void			check_compass_direction_in_file(int i, t_mapData *Map);
 void			check_floor_rgbs(int i, t_mapData *Map);
 void			check_ceiling_rgbs(int i, t_mapData *Map);
 void			validate_map(t_mapData *Map);
+
+// compass_direction.c
+void			check_no(int i, t_mapData *Map);
+void			check_so(int i, t_mapData *Map);
+void			check_we(int i, t_mapData *Map);
+void			check_ea(int i, t_mapData *Map);
+void			check_compass_direction_in_file(int i, t_mapData *Map);
+
+// parsing_config_info.c
+void			check_floor_rgbs(int i, t_mapData *Map);
+void			check_ceiling_rgbs(int i, t_mapData *Map);
+void			parsing_config_info(t_mapData *Map);
+
+// load_configuration_file.c
+void			open_file(t_mapData *Map);
+void			ft_append(char **str, char c);
+void			read_append_split_file(t_mapData *Map);
+void			load_configuration_file(t_mapData *Map);
 
 // parsing.c
 void			parsing_input(t_mapData *Map, int ac, char **av);
@@ -131,11 +147,11 @@ void			error_exit(char *message);
 void			*ft_malloc(void *str, size_t size);
 void			ft_free(void **str);
 
-// checkers.c
-void			check_if_map_is_rectangular(t_mapData *Map);
-bool			check_surrounded_walls(t_mapData *Map);
-void			check_tracked_data(t_mapData *Map);
-void			check_exit_collectibles(t_mapData *Map);
+
+
+
+
+
 
 // // validate_map.c
 // void			set_exit_player_pos(t_mapData *Map);
@@ -144,10 +160,6 @@ void			check_exit_collectibles(t_mapData *Map);
 
 // dfs_search.c
 void			dfs(t_mapData *Map, int row, int col, bool **visited);
-void			up(t_mapData *Map, int row, int col, bool **visited);
-void			down(t_mapData *Map, int row, int col, bool **visited);
-void			left(t_mapData *Map, int row, int col, bool **visited);
-void			right(t_mapData *Map, int row, int col, bool **visited);
 
 // key_hook_manager.c
 int				handle_keypress(int keycode, t_mapData *Map);

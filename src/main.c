@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/27 23:11:47 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:39:07 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	*init_map_struct(t_mapData *Map)
 	Map->south_path = NULL;
 	Map->west_path = NULL;
 	Map->east_path = NULL;
-	Map->found_NO = 0;
-	Map->found_SO = 0;
-	Map->found_WE = 0;
-	Map->found_EA = 0;
+	Map->found_no = 0;
+	Map->found_so = 0;
+	Map->found_we = 0;
+	Map->found_ea = 0;
 
 	Map->max_width = 0;
 	Map->max_height = 0;
@@ -100,7 +100,6 @@ int	main(int ac, char **av)
 	map->img = init_windata(map->img);
 	map->color = init_color(map->color);
 	parsing(ac, av, map);
-	printf("hi\n");
 
 	if (map->north_path != NULL)
 		ft_free((void **)map->north_path);

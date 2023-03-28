@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 19:04:47 by rkedida           #+#    #+#             */
-/*   Updated: 2022/04/04 04:17:50 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/28 14:07:06 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,31 @@ static int	ft_isspace(char e)
 		|| e == '\t' || e == '\n');
 }
 
+static void	init_var(int *sign, long *nb, int *index, const char *str)
+{
+	*index = 0;
+	*nb = 0;
+	*sign = 1;
+	while (ft_isspace(str[*index]))
+		(*index)++;
+}
+
 int	ft_atoi(const char *str)
 {
 	int		sign;
 	long	nb;
 	int		index;
+	int		flag;
 
-		index = 0;
-		nb = 0;
-		sign = 1;
-	while (ft_isspace(str[index]))
-		index++;
+	init_var(&sign, &nb, &index, str);
+	flag = 1;
 	if (str[index] == '-' || str[index] == '+')
 	{
 		if (str[index] == '-')
 			sign = -1;
 		index++;
 	}
-	while (str[index] >= '0' && str[index] <= '9')
+	while (str[index] >= '0' && str[index] <= '9' && flag++)
 	{
 		nb = nb * 10 + (str[index] - '0');
 		if (nb > 2147483647 && sign == 1)
@@ -44,5 +51,7 @@ int	ft_atoi(const char *str)
 			return (0);
 		index++;
 	}
+	if (flag == 1)
+		return (-1);
 	return (sign * nb);
 }
