@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/28 17:54:35 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/30 01:48:05 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_mapData
 	int					result;
 
 	// map Parsing
+	int					fd;
+	int					read_bytes;
 	char				*line;
 	char				**map;
 	char				**maps;
@@ -55,6 +57,8 @@ typedef struct s_mapData
 	char				**south_path;
 	char				**west_path;
 	char				**east_path;
+	char				**floor;
+	char				**ceiling;
 
 	int					found_no;
 	int					found_so;
@@ -62,11 +66,6 @@ typedef struct s_mapData
 	int					found_ea;
 	int					found_f;
 	int					found_c;
-
-	bool				found_map;
-
-	char				**floor;
-	char				**ceiling;
 
 	struct s_color		*color;
 
@@ -82,8 +81,6 @@ typedef struct s_mapData
 	int					player_pos[2];
 	int					exit_pos[2];
 	bool				**visited;
-	int					fd;
-	int					read_bytes;
 	bool				found_exit;
 	int					steps;
 	struct s_windata	*img;
@@ -101,6 +98,17 @@ typedef struct s_windata
 	int		img_width;
 	int		img_height;
 	char	*relative_path;
+
+	int		mapX;
+	int		mapY;
+	double	posX;
+	double	posY;	
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+	double	time;
+	double	oldTime;
 }				t_winData;
 
 // surrounded _walls.c
@@ -149,14 +157,6 @@ void			ft_free(void **str);
 
 
 
-
-
-
-
-// // validate_map.c
-// void			set_exit_player_pos(t_mapData *Map);
-// void			init_bool_visited(t_mapData *Map);
-// void			validate_map(t_mapData *Map);
 
 // dfs_search.c
 void			dfs(t_mapData *Map, int row, int col, bool **visited);

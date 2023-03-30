@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/28 16:39:07 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/30 01:32:17 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*init_map_struct(t_mapData *Map)
 	Map->found_exit = false;
 	Map->img = NULL;
 	Map->steps = 0;
-	Map->found_map = false;
+	// Map->found_map = false;
 	return (Map);
 }
 
@@ -101,6 +101,10 @@ int	main(int ac, char **av)
 	map->color = init_color(map->color);
 	parsing(ac, av, map);
 
+	map->img->mlx = mlx_init();
+	map->img->mlx_win = mlx_new_window(map->img->mlx, 1920, 1080, "cub3D");
+	mlx_hook(map->img->mlx_win, 17, 0L, cleanup_and_exit, map);
+	mlx_loop(map->img->mlx);
 	if (map->north_path != NULL)
 		ft_free((void **)map->north_path);
 	if (map->south_path != NULL)
@@ -121,13 +125,7 @@ int	main(int ac, char **av)
 	// if ((map->max_width - 1) * map->img->img_width > MAX_WINDOW_WIDTH \
 	// 	|| map->max_height * map->img->img_height > MAX_WINDOW_HEIGHT)
 	// 	error_exit("Window to big max resolution 1920x1080.");
-	// map->img->mlx = mlx_init();
-	// map->img->mlx_win = mlx_new_window(map->img->mlx, \
-	// 	(map->max_width - 1) * map->img->img_width, \
-	// 		(map->max_height) * map->img->img_height, "Balu");
 	// load_textures(map, map->img);
 	// mlx_key_hook(map->img->mlx_win, &handle_keypress, map);
-	// mlx_hook(map->img->mlx_win, 17, 0L, cleanup_and_exit, map);
-	// mlx_loop(map->img->mlx);
 	return (0);
 }

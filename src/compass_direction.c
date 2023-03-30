@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/28 15:18:23 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/29 14:25:04 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	check_no(int i, t_mapData *Map)
 		if (Map->north_path[0] && Map->north_path[1] \
 			&& Map->north_path[2] == NULL)
 		{
-			Map->result = access(Map->north_path[1], F_OK);
+			Map->result = access(Map->north_path[1], F_OK | R_OK);
 			if (Map->result != 0)
-				error_exit("NO path doesn't exist");
+				error_exit("NO path doesn't exist or no Read Permissons.");
 		}
 		else
 			error_exit("NO path wrong");
@@ -41,9 +41,9 @@ void	check_so(int i, t_mapData *Map)
 		if (Map->south_path[0] && Map->south_path[1] \
 			&& Map->south_path[2] == NULL)
 		{
-			Map->result = access(Map->south_path[1], F_OK);
+			Map->result = access(Map->south_path[1], F_OK | R_OK);
 			if (Map->result != 0)
-				error_exit("SO path doesn't exist");
+				error_exit("SO path doesn't exist or no Read Permissons.");
 		}
 		else
 			error_exit("SO path wrong");
@@ -59,9 +59,9 @@ void	check_we(int i, t_mapData *Map)
 			Map->west_path = ft_split(Map->map[i], ' ');
 		if (Map->west_path[0] && Map->west_path[1] && Map->west_path[2] == NULL)
 		{
-			Map->result = access(Map->west_path[1], F_OK);
+			Map->result = access(Map->west_path[1], F_OK | R_OK);
 			if (Map->result != 0)
-				error_exit("WE path doesn't exist");
+				error_exit("WE path doesn't exist or no Read Permissons.");
 		}
 		else
 			error_exit("WE path wrong");
@@ -77,9 +77,9 @@ void	check_ea(int i, t_mapData *Map)
 			Map->east_path = ft_split(Map->map[i], ' ');
 		if (Map->east_path[0] && Map->east_path[1] && Map->east_path[2] == NULL)
 		{
-			Map->result = access(Map->east_path[1], F_OK);
+			Map->result = access(Map->east_path[1], F_OK | R_OK);
 			if (Map->result != 0)
-				error_exit("EA path doesn't exist");
+				error_exit("EA path doesn't exist or no Read Permissons.");
 		}
 		else
 			error_exit("EA path wrong");
