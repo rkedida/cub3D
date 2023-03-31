@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/30 01:48:05 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/31 16:35:51 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,14 @@ typedef struct s_windata
 	int		img_height;
 	char	*relative_path;
 
-	int		mapX;
-	int		mapY;
-	double	posX;
-	double	posY;	
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
-	double	time;
-	double	oldTime;
+	int		map_x;
+	int		map_y;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 }				t_winData;
 
 // surrounded _walls.c

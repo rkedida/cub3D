@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/30 01:35:30 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/03/31 16:40:26 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	cleanup_and_exit(t_mapData *Map)
 		ft_free((void **)Map->south_path);
 	if (Map->west_path != NULL)
 		ft_free((void **)Map->west_path);
-	if (Map->east_path != NULL) 
+	if (Map->east_path != NULL)
 		ft_free((void **)Map->east_path);
 	if (Map->floor != NULL)
 		ft_free((void **)Map->floor);
