@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_map.c                                      :+:      :+:    :+:   */
+/*   load_configuration_file.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/28 15:12:31 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/04 00:54:43 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	open_file(t_mapData *Map)
+void	open_file(t_data *map)
 {
-	Map->fd = open(Map->map_path, O_RDONLY);
-	if (Map->fd == -1)
+	map->fd = open(map->map_path, O_RDONLY);
+	if (map->fd == -1)
 		error_exit("Error opening file.");
 }
 
@@ -37,27 +37,27 @@ void	ft_append(char **str, char c)
 	*str = new_str;
 }
 
-void	read_append_split_file(t_mapData *Map)
+void	read_append_split_file(t_data *map)
 {
 	char		*buf;
 
 	buf = NULL;
 	buf = ft_malloc(buf, 1);
-	Map->line = ft_malloc(Map->line, 1);
-	Map->read_bytes = read(Map->fd, buf, 1);
-	while (Map->read_bytes > 0)
+	map->line = ft_malloc(map->line, 1);
+	map->read_bytes = read(map->fd, buf, 1);
+	while (map->read_bytes > 0)
 	{
-		ft_append(&(Map->line), buf[0]);
-		Map->read_bytes = read(Map->fd, buf, 1);
+		ft_append(&(map->line), buf[0]);
+		map->read_bytes = read(map->fd, buf, 1);
 	}
-	Map->map = ft_split(Map->line, '\n');
+	map->map = ft_split(map->line, '\n');
 	free(buf);
-	free(Map->line);
-	close(Map->fd);
+	free(map->line);
+	close(map->fd);
 }
 
-void	load_configuration_file(t_mapData *Map)
+void	load_configuration_file(t_data *map)
 {
-	open_file(Map);
-	read_append_split_file(Map);
+	open_file(map);
+	read_append_split_file(map);
 }

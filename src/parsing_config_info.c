@@ -6,28 +6,28 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/29 01:04:40 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/04 00:58:40 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	check_floor_rgbs(int i, t_mapData *Map)
+void	check_floor_rgbs(int i, t_data *map)
 {
-	if (ft_strncmp(Map->map[i], "F", 1) == 0)
+	if (ft_strncmp(map->map[i], "F", 1) == 0)
 	{
-		Map->found_f++;
-		if (!Map->floor)
-			Map->floor = ft_split(Map->map[i], ',');
-		if (Map->floor != NULL && Map->floor[0] != NULL \
-			&& Map->floor[1] != NULL && Map->floor[2] != NULL \
-				&& Map->floor[3] == NULL)
+		map->found_f++;
+		if (!map->floor)
+			map->floor = ft_split(map->map[i], ',');
+		if (map->floor != NULL && map->floor[0] != NULL \
+			&& map->floor[1] != NULL && map->floor[2] != NULL \
+				&& map->floor[3] == NULL)
 		{
-			Map->color->floor_r = ft_atoi(Map->floor[0] + 2);
-			Map->color->floor_g = ft_atoi(Map->floor[1]);
-			Map->color->floor_b = ft_atoi(Map->floor[2]);
-			if (Map->color->floor_r < 0 || Map->color->floor_g < 0 \
-				|| Map->color->floor_b < 0)
+			map->color->floor_r = ft_atoi(map->floor[0] + 2);
+			map->color->floor_g = ft_atoi(map->floor[1]);
+			map->color->floor_b = ft_atoi(map->floor[2]);
+			if (map->color->floor_r < 0 || map->color->floor_g < 0 \
+				|| map->color->floor_b < 0)
 				error_exit("RGB failed");
 		}
 		else
@@ -35,22 +35,22 @@ void	check_floor_rgbs(int i, t_mapData *Map)
 	}
 }
 
-void	check_ceiling_rgbs(int i, t_mapData *Map)
+void	check_ceiling_rgbs(int i, t_data *map)
 {
-	if (ft_strncmp(Map->map[i], "C", 1) == 0)
+	if (ft_strncmp(map->map[i], "C", 1) == 0)
 	{
-		Map->found_c++;
-		if (!Map->ceiling)
-			Map->ceiling = ft_split(Map->map[i], ',');
-		if (Map->ceiling != NULL && Map->ceiling[0] != NULL \
-			&& Map->ceiling[1] != NULL && Map->ceiling[2] != NULL \
-				&& Map->ceiling[3] == NULL)
+		map->found_c++;
+		if (!map->ceiling)
+			map->ceiling = ft_split(map->map[i], ',');
+		if (map->ceiling != NULL && map->ceiling[0] != NULL \
+			&& map->ceiling[1] != NULL && map->ceiling[2] != NULL \
+				&& map->ceiling[3] == NULL)
 		{
-			Map->color->ceiling_r = ft_atoi(Map->ceiling[0] + 2);
-			Map->color->ceiling_g = ft_atoi(Map->ceiling[1]);
-			Map->color->ceiling_b = ft_atoi(Map->ceiling[2]);
-			if (Map->color->ceiling_r < 0 || Map->color->ceiling_g < 0 \
-				|| Map->color->ceiling_b < 0)
+			map->color->ceiling_r = ft_atoi(map->ceiling[0] + 2);
+			map->color->ceiling_g = ft_atoi(map->ceiling[1]);
+			map->color->ceiling_b = ft_atoi(map->ceiling[2]);
+			if (map->color->ceiling_r < 0 || map->color->ceiling_g < 0 \
+				|| map->color->ceiling_b < 0)
 				error_exit("RGB failed");
 		}
 		else
@@ -58,25 +58,25 @@ void	check_ceiling_rgbs(int i, t_mapData *Map)
 	}
 }
 
-void	parsing_config_info(t_mapData *Map)
+void	parsing_config_info(t_data *map)
 {
 	int	i;
 
 	i = 0;
-	while (Map->map[i] != NULL)
+	while (map->map[i] != NULL)
 	{
-		check_compass_direction_in_file(i, Map);
-		check_floor_rgbs(i, Map);
-		check_ceiling_rgbs(i, Map);
+		check_compass_direction_in_file(i, map);
+		check_floor_rgbs(i, map);
+		check_ceiling_rgbs(i, map);
 		i++;
 	}
-	if (Map->north_path == NULL && Map->south_path == NULL \
-		&& Map->west_path == NULL && Map->east_path == NULL \
-		&& Map->floor == NULL && Map->ceiling == NULL)
-		Map->maps = Map->map;
-	else if (Map->found_no != 1 || Map->found_so != 1 || Map->found_we != 1 \
-		|| Map->found_ea != 1 || Map->found_f != 1 || Map->found_c != 1)
+	if (map->north_path == NULL && map->south_path == NULL \
+		&& map->west_path == NULL && map->east_path == NULL \
+		&& map->floor == NULL && map->ceiling == NULL)
+		map->maps = map->map;
+	else if (map->found_no != 1 || map->found_so != 1 || map->found_we != 1 \
+		|| map->found_ea != 1 || map->found_f != 1 || map->found_c != 1)
 		error_exit("Compass Invalid Path");
 	else
-		Map->maps = Map->map + 6;
+		map->maps = map->map + 6;
 }

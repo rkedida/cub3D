@@ -6,124 +6,70 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/03/20 19:51:07 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/05 23:44:40 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	handle_keypress(int keycode, t_mapData *Map)
+int	handle_keypress(int keycode, t_data *map)
 {
 	if (keycode == 53)
-		cleanup_and_exit(Map);
+		cleanup_and_exit(map);
 	else if (keycode == 13)
-		move_up(Map);
+		move_forward(map, map->win);
 	else if (keycode == 1)
-		move_down(Map);
+		move_backward(map, map->win);
 	else if (keycode == 0)
-		move_left(Map);
+		move_left(map->win);
 	else if (keycode == 2)
-		move_right(Map);
-	if (Map->max_collectibles == 0)
-	{
-		Map->map[Map->exit_pos[0]][Map->exit_pos[1]] = 'E';
-		load_texture('E', Map->exit_pos[0], Map->exit_pos[1], Map->img);
-	}
+		move_right(map->win);
+	// if (Map->max_collectibles == 0)
+	// {
+	// 	Map->map[Map->exit_pos[0]][Map->exit_pos[1]] = 'E';
+	// 	load_texture('E', Map->exit_pos[0], Map->exit_pos[1], Map->img);
+	// }
 	return (0);
 }
 
-void	move_up(t_mapData *Map)
+void move_forward(t_data *map, t_window *win)
 {
-	if (Map->map[Map->player_pos[0] - 1][Map->player_pos[1]] != '1')
+	// double new_x = win->pos_x + win->dir_x * win->move_speed;
+	// double new_y = win->pos_y + win->dir_y * win->move_speed;
+	if (map->maps[((int)(win->pos_y + win->dir_y * win->move_speed))][((int)(win->pos_x + win->dir_x * win->move_speed))] != '1')
 	{
-		if (Map->map[Map->player_pos[0] - 1][Map->player_pos[1]] == 'C' \
-			&& Map->max_collectibles > 0)
-		{
-			Map->max_collectibles--;
-			Map->map[Map->player_pos[0] - 1][Map->player_pos[1]] = '0';
-		}
-		load_texture('0', Map->player_pos[0], Map->player_pos[1], Map->img);
-		Map->player_pos[0]--;
-		ft_printf("%d = Steps walked\n", ++Map->steps);
-		if (Map->max_collectibles == 0 \
-			&& Map->map[Map->player_pos[0]][Map->player_pos[1]] == 'E')
-		{
-			ft_printf("YOU WON!\n");
-			cleanup_and_exit(Map);
-		}
-		else
-			load_texture('P', Map->player_pos[0], Map->player_pos[1], Map->img);
+		win->pos_x = win->pos_x + win->dir_x * win->move_speed;
+		win->pos_y = win->pos_y + win->dir_y * win->move_speed;
 	}
 }
 
-void	move_down(t_mapData *Map)
+void move_backward(t_data *map, t_window *win)
 {
-	if (Map->map[Map->player_pos[0] + 1][Map->player_pos[1]] != '1')
+	double new_x = win->pos_x - win->dir_x * win->move_speed;
+	double new_y = win->pos_y - win->dir_y * win->move_speed;
+	if (map->maps[(int)new_y][(int)new_x] != '1')
 	{
-		if (Map->map[Map->player_pos[0] + 1][Map->player_pos[1]] == 'C' \
-			&& Map->max_collectibles > 0)
-		{
-			Map->max_collectibles--;
-			Map->map[Map->player_pos[0] + 1][Map->player_pos[1]] = '0';
-		}
-		load_texture('0', Map->player_pos[0], Map->player_pos[1], Map->img);
-		Map->player_pos[0]++;
-		ft_printf("%d = Steps walked\n", ++Map->steps);
-		if (Map->max_collectibles == 0 \
-			&& Map->map[Map->player_pos[0]][Map->player_pos[1]] == 'E')
-		{
-			ft_printf("YOU WON!\n");
-			cleanup_and_exit(Map);
-		}
-		else
-			load_texture('P', Map->player_pos[0], Map->player_pos[1], Map->img);
+		win->pos_x = new_x;
+		win->pos_y = new_y;
 	}
 }
 
-void	move_left(t_mapData *Map)
+void move_left(t_window *win)
 {
-	if (Map->map[Map->player_pos[0]][Map->player_pos[1] - 1] != '1')
-	{
-		if (Map->map[Map->player_pos[0]][Map->player_pos[1] - 1] == 'C' \
-			&& Map->max_collectibles > 0)
-		{
-			Map->max_collectibles--;
-			Map->map[Map->player_pos[0]][Map->player_pos[1] - 1] = '0';
-		}
-		load_texture('0', Map->player_pos[0], Map->player_pos[1], Map->img);
-		Map->player_pos[1]--;
-		ft_printf("%d = Steps walked\n", ++Map->steps);
-		if (Map->max_collectibles == 0 \
-			&& Map->map[Map->player_pos[0]][Map->player_pos[1]] == 'E')
-		{
-			ft_printf("YOU WON!\n");
-			cleanup_and_exit(Map);
-		}
-		else
-			load_texture('P', Map->player_pos[0], Map->player_pos[1], Map->img);
-	}
+	double old_dir_x = win->dir_x;
+	win->dir_x = win->dir_x * cos(win->rot_speed) - win->dir_y * sin(win->rot_speed);
+	win->dir_y = old_dir_x * sin(win->rot_speed) + win->dir_y * cos(win->rot_speed);
+	double old_plane_x = win->plane_x;
+	win->plane_x = win->plane_x * cos(win->rot_speed) - win->plane_y * sin(win->rot_speed);
+	win->plane_y = old_plane_x * sin(win->rot_speed) + win->plane_y * cos(win->rot_speed);
 }
 
-void	move_right(t_mapData *Map)
+void move_right(t_window *win)
 {
-	if (Map->map[Map->player_pos[0]][Map->player_pos[1] + 1] != '1')
-	{
-		if (Map->map[Map->player_pos[0]][Map->player_pos[1] + 1] == 'C' \
-			&& Map->max_collectibles > 0)
-		{
-			Map->max_collectibles--;
-			Map->map[Map->player_pos[0]][Map->player_pos[1] + 1] = '0';
-		}
-		load_texture('0', Map->player_pos[0], Map->player_pos[1], Map->img);
-		Map->player_pos[1]++;
-		ft_printf("%d = Steps walked\n", ++Map->steps);
-		if (Map->max_collectibles == 0 \
-			&& Map->map[Map->player_pos[0]][Map->player_pos[1]] == 'E')
-		{
-			ft_printf("YOU WON!\n");
-			cleanup_and_exit(Map);
-		}
-		else
-			load_texture('P', Map->player_pos[0], Map->player_pos[1], Map->img);
-	}
+	double old_dir_x = win->dir_x;
+	win->dir_x = win->dir_x * cos(-win->rot_speed) - win->dir_y * sin(-win->rot_speed);
+	win->dir_y = old_dir_x * sin(-win->rot_speed) + win->dir_y * cos(-win->rot_speed);
+	double old_plane_x = win->plane_x;
+	win->plane_x = win->plane_x * cos(-win->rot_speed) - win->plane_y * sin(-win->rot_speed); 
+	win->plane_y = old_plane_x * sin(-win->rot_speed) + win->plane_y * cos(-win->rot_speed);
 }

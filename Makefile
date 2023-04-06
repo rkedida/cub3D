@@ -6,7 +6,7 @@
 #    By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/03/28 17:49:59 by rkedida          ###   ########.fr        #
+#    Updated: 2023/04/01 15:31:51 by rkedida          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC				=	$(SRC_DIR)/main.c\
 					$(SRC_DIR)/key_hook_manager.c\
 					$(SRC_DIR)/compass_direction.c\
 					$(SRC_DIR)/parsing_config_info.c\
+					$(SRC_DIR)/raycasting.c\
 					
 
 SRC_DIR			=	./src
