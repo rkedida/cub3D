@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/05 23:44:40 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/06 17:49:57 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	handle_keypress(int keycode, t_data *map)
 	// 	Map->map[Map->exit_pos[0]][Map->exit_pos[1]] = 'E';
 	// 	load_texture('E', Map->exit_pos[0], Map->exit_pos[1], Map->img);
 	// }
+	if (keycode == 53 || keycode == 13 || keycode ==1 || keycode == 0 || keycode == 2)
+		start_drawing(map);
 	return (0);
 }
 
@@ -36,11 +38,16 @@ void move_forward(t_data *map, t_window *win)
 {
 	// double new_x = win->pos_x + win->dir_x * win->move_speed;
 	// double new_y = win->pos_y + win->dir_y * win->move_speed;
-	if (map->maps[((int)(win->pos_y + win->dir_y * win->move_speed))][((int)(win->pos_x + win->dir_x * win->move_speed))] != '1')
-	{
-		win->pos_x = win->pos_x + win->dir_x * win->move_speed;
-		win->pos_y = win->pos_y + win->dir_y * win->move_speed;
-	}
+	// if (map->maps[((int)(win->pos_y + win->dir_y * win->move_speed))][((int)(win->pos_x + win->dir_x * win->move_speed))] != '1')
+	// {
+	// 	win->pos_x = win->pos_x + win->dir_x * win->move_speed;
+	// 	win->pos_y = win->pos_y + win->dir_y * win->move_speed;
+	// }
+	(void)map;
+	printf("-------------------------------------------------------------------------");
+	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
+	win->pos_x += win->dir_x;
+	win->pos_y += win->dir_y;
 }
 
 void move_backward(t_data *map, t_window *win)

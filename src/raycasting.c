@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/06 00:26:09 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/06 18:26:54 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ int	ft_mlx_pixel_put(t_data *img, int x, int y, int num_color)
 int	start_drawing(t_data *map)
 {
 	// load_textures(map, map->img);
+	map->img->img = mlx_new_image(map->mlx, 500, 500);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 	raycaster(map, map->win);
-	
+	mlx_destroy_image(map->mlx, map->img->img);
 	// set_floor(map);
 	// draw_buffer(map, map->win->buffer);
 	// for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
@@ -94,8 +96,8 @@ int	start_drawing(t_data *map)
 int	raycaster(t_data *map, t_window *win)
 {
 	int	x;
-	// win->pos_x = map->player_pos[1];
-	// win->pos_y = map->player_pos[0];
+	// win->pos_x = 16;
+	// win->pos_y = 9;
 	// map->win->dir_x = -1;
 	// map->win->dir_y = 0;
 	// map->win->plane_x = 0;
@@ -108,12 +110,12 @@ int	raycaster(t_data *map, t_window *win)
 		win->camera_x = 2 * x / (double)MAX_WINDOW_WIDTH - 1;
 		win->raydir_x = win->dir_x + win->plane_x * win->camera_x;
 		win->raydir_y = win->dir_y + win->plane_y * win->camera_x;
-		printf("raydir_x = %f === raydir_y = %f === camera_x = %f\n", win->raydir_x, win->raydir_y, win->camera_x);
+		// printf("raydir_x = %f === raydir_y = %f === camera_x = %f\n", win->raydir_x, win->raydir_y, win->camera_x);
 
 		// which box of the map we're in
 		win->map_x = (int)win->pos_x;
 		win->map_y = (int)win->pos_y;
-		printf("map_x = %d === map_y = %d\n", win->map_x, win->map_y);
+		// printf("map_x = %d === map_y = %d\n", win->map_x, win->map_y);
 
 
 		// length of ray from one position to next x or y-side to next x or y-side
@@ -123,7 +125,7 @@ int	raycaster(t_data *map, t_window *win)
 		win->deltadist_y = DBL_MAX;
 		if (win->deltadist_y)
 			win->deltadist_y = fabs(1.0 / win->raydir_y);
-		printf("deltadist_x = %f === deltadist_y = %f\n", win->deltadist_x, win->deltadist_y);
+		// printf("deltadist_x = %f === deltadist_y = %f\n", win->deltadist_x, win->deltadist_y);
 
 		win->hit = 0;
 		win->side = 0;
@@ -177,30 +179,30 @@ int	raycaster(t_data *map, t_window *win)
 			win->perpwalldist = (win->sidedist_x - win->deltadist_x);
 		else
 			win->perpwalldist = (win->sidedist_y - win->deltadist_y);
-		printf("perpwalldist = %f === side = %d\n", win->perpwalldist, win->side);
+		// printf("perpwalldist = %f === side = %d\n", win->perpwalldist, win->side);
 
 
 		// Calculate height of line to draw on screen
-		printf("lineheight before = %d\n", win->lineheight);
-		win->lineheight = (int)(55 * 0.55 / win->perpwalldist);
-		printf("lineheight after = %d\n", win->lineheight);
+		// printf("lineheight before = %d\n", win->lineheight);
+		win->lineheight = (int)(MAX_WINDOW_HEIGHT / win->perpwalldist);
+		// printf("lineheight after = %d\n", win->lineheight);
 
 		// set_floor(map);
 
 		// Calculate lowest and highest pixel to fill in current stripe
-		printf("drawstart before = %d\n", win->drawstart);
-		win->drawstart = -win->lineheight / 2 + MAX_WINDOW_HEIGHT / 10;
-		printf("drawstart mid = %d\n", win->drawstart);
+		// printf("drawstart before = %d\n", win->drawstart);
+		win->drawstart = -win->lineheight / 2 + MAX_WINDOW_HEIGHT / 2;
+		// printf("drawstart mid = %d\n", win->drawstart);
 		if (win->drawstart < 0)
 			win->drawstart = 0;
-		printf("drawstart after = %d\n", win->drawstart);
-		printf("\n");
-		printf("drawend before = %d\n", win->drawend);
-		win->drawend = win->lineheight / 2 + MAX_WINDOW_HEIGHT / 10;
-		printf("drawend mid = %d\n", win->drawend);
+		// printf("drawstart after = %d\n", win->drawstart);
+		// printf("\n");
+		// printf("drawend before = %d\n", win->drawend);
+		win->drawend = win->lineheight / 2 + MAX_WINDOW_HEIGHT / 2;
+		// printf("drawend mid = %d\n", win->drawend);
 		if (win->drawend >= MAX_WINDOW_HEIGHT)
 			win->drawend = MAX_WINDOW_HEIGHT - 1;
-		printf("drawend after = %d\n", win->drawend);
+		// printf("drawend after = %d\n", win->drawend);
 
 		// texturing calculations
 		// win->tex_num = map->maps[win->map_y][win->map_x] - 1; // 1 subtracted from it so that texture 0 can be used!
@@ -255,7 +257,7 @@ int	raycaster(t_data *map, t_window *win)
 		// while (i < MAX_WINDOW_HEIGHT / 2)
 		// 	win->buffer[i++][x] = RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b);
 		// if (map->maps[win->map_y][win->map_x] == '1')
-		map->img->img = mlx_new_image(map->mlx, 55, 55);
+		// map->img->img = mlx_new_image(map->mlx, 500, 500);
 		if (win->side == 0 && win->raydir_x > 0)
 			map->color->color = RGB(255, 0, 0, 255);
 		if (win->side == 0 && win->raydir_x < 0)
@@ -264,7 +266,7 @@ int	raycaster(t_data *map, t_window *win)
 			map->color->color = RGB(0, 128, 0, 255);
 		if (win->side == 1 && win->raydir_y > 0)
 			map->color->color = RGB(255, 255, 0, 255);
-		map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+		// map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 		// int	i = win->drawstart;
 		// while (i < win->drawend)
 		// {
@@ -276,7 +278,7 @@ int	raycaster(t_data *map, t_window *win)
 		if (win->side == 1)
 			map->color->color = map->color->color / 2;
 		mlx_verline(map, x, win->drawstart, win->drawend, map->color->color);
-		printf("%d\n", map->color->color);
+		// printf("%d\n", map->color->color);
 		// printf("%d\n", map->color->color);
 		// else if (map->maps[map->img->map_y][map->img->map_x] == '0')
 		// else
@@ -298,7 +300,7 @@ int	raycaster(t_data *map, t_window *win)
 
 	// Draw the image to the window
 	
-	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img, 0, 0);
+	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img, 0, 0);
 	// mlx_destroy_image(map->mlx, map->img->img);
 
 	// speed modifiers
@@ -321,24 +323,24 @@ int	raycaster(t_data *map, t_window *win)
 	return (0);
 }
 
-void draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
-{
-	int	i;
-	int	j;
+// void draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	(void)buffer;
-	while (i < MAX_WINDOW_HEIGHT)
-	{
-		j = 0;
-		while (j < MAX_WINDOW_WIDTH)
-		{
-			mlx_pixel_put(map->mlx, map->mlx_win, i, j, map->color->color);
-			j++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	(void)buffer;
+// 	while (i < MAX_WINDOW_HEIGHT)
+// 	{
+// 		j = 0;
+// 		while (j < MAX_WINDOW_WIDTH)
+// 		{
+// 			mlx_pixel_put(map->mlx, map->mlx_win, i, j, map->color->color);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 // void draw_buffer(t_data *map, void *mlx, void *win, int w, int h, unsigned int *buffer)
 // {

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/05 22:16:25 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/06 17:37:56 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ void	*init_window_struct(t_window *img)
 
 	img->map_x = 0;
 	img->map_y = 0;
-	img->pos_x = 0.0;
-	img->pos_y = 0.0;
-	img->dir_x = 0.0;
+	img->pos_x = 16.0;
+	img->pos_y = 9;
+	img->dir_x = -1.0;
 	img->dir_y = 0.0;
 	img->plane_x = 0.0;
-	img->plane_y = 0.0;
+	img->plane_y = 0.66;
 	img->camera_x = 0.0;
 	img->raydir_x = 0.0;
 	img->raydir_y = 0.0;
@@ -140,8 +140,8 @@ int	main(int ac, char **av)
 {
 	t_data	*map;
 
-	leaks();
-	atexit(leaks);
+	//leaks();
+//	atexit(leaks);
 	map = NULL;
 	map = init_map_struct(map);
 	map->win = init_window_struct(map->win);
@@ -154,7 +154,8 @@ int	main(int ac, char **av)
 
 	// map->img->mlx_win = mlx_new_image(map->img->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
-	mlx_loop_hook(map->mlx, start_drawing, map);
+	//mlx_loop_hook(map->mlx, start_drawing, map);
+	start_drawing(map);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
