@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/07 19:22:45 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 15:20:13 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,5 @@ void	validate_map(t_data *map, t_texture *texture)
 	check_map_syntax(map, texture);
 	if (check_surrounded_walls(map) == false)
 		error_exit("Map not closed");
-	printf("%d - rows ==== %d - cols\n", map->player_pos[0], map->player_pos[1]);
+	// printf("%d - rows ==== %d - cols\n", map->player_pos[0], map->player_pos[1]);
 }

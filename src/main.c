@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/08 22:44:01 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 21:25:16 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 void	*init_map_struct(t_data *Map)
 {
 	Map = malloc(sizeof(t_data));
+	Map->mlx = NULL;
+	Map->mlx_win = NULL;
+
 	// input parsing
 	Map->map_path = NULL;
 	Map->check = NULL;
@@ -172,8 +175,9 @@ int	main(int ac, char **av)
 	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
 	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	// printf("hi\n");
+	load_textures(map);
 	// mlx_loop_hook(map->mlx, start_drawing, map);
-	// load_textures(map);
 	start_drawing(map);
 	// mlx_put_image_to_window(map->mlx, map->win, map->img->img, 0, 0);
 	mlx_destroy_image(map->mlx, map->img->img);

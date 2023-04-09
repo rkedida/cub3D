@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 12:47:59 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 18:06:14 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ typedef struct s_img
 
 typedef struct s_texture
 {
-	t_img				north_tex;
-	t_img				south_tex;
-	t_img				west_tex;
-	t_img				east_tex;
+	t_img				*north_tex;
+	t_img				*south_tex;
+	t_img				*west_tex;
+	t_img				*east_tex;
 	char				**north_path;
 	char				**south_path;
 	char				**west_path;
@@ -152,7 +152,7 @@ typedef struct s_window
 	double	move_speed;
 	double	rot_speed;
 	int		*img_data;
-	u_int32_t		buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 	int		*texture;
 }
 				t_window;
@@ -160,10 +160,12 @@ typedef struct s_window
 				void move_forward(t_data *map, t_window *win);
 				void move_backward(t_data *map, t_window *win);
 
+int	get_tex_pixel(t_img *texture, int x, int y);
 bool mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int	raycaster(t_data *map, t_window *win);
 // void	draw_buffer(t_data *map, int x, int y, int color);
-void	draw_buffer(uint32_t *buffer);
+// void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
+void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void	move(t_data *map);
 int	start_drawing(t_data *map);
 void	*init_img_struct(t_img *img);
@@ -229,7 +231,7 @@ void			move_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);
-int				load_texture(t_data *map, char *path, t_img img);
+int				load_texture(t_data *map, char *path, t_img *img);
 int				load_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 

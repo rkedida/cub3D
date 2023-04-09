@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 13:43:24 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 22:47:06 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,17 @@
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
+// void set_floor()
+
 int	start_drawing(t_data *map)
 {
-	load_textures(map);
+	// load_textures(map);
+	mlx_clear_window(map->mlx, map->mlx_win);
 	raycaster(map, map->win);
-	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
-	printf("%d - linelength\n", map->img->line_length);
+	// draw_buffer(map, map->win->buffer);
+	// mlx_clear_window(map->mlx, map->mlx_win);
+	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
+	// printf("%d - linelength\n", map->img->line_length);
 	return (0);
 }
 
@@ -111,8 +116,6 @@ int	raycaster(t_data *map, t_window *win)
 			win->perpwalldist = (win->sidedist_x - win->deltadist_x);
 		else
 			win->perpwalldist = (win->sidedist_y - win->deltadist_y);
-		// printf("perpwalldist = %f === side = %d\n", win->perpwalldist, win->side);
-
 
 		// Calculate height of line to draw on screen
 		// printf("lineheight before = %d\n", win->lineheight);
@@ -136,24 +139,6 @@ int	raycaster(t_data *map, t_window *win)
 			win->drawend = MAX_WINDOW_HEIGHT - 1;
 		// printf("drawend after = %d\n", win->drawend);
 
-		if (win->side == 0 && win->raydir_x > 0)
-			map->color->color = RGB(0, 255, 0, 255);
-		if (win->side == 0 && win->raydir_x < 0)
-			map->color->color = RGB(0, 0, 255, 255);
-		if (win->side == 1 && win->raydir_y < 0)
-			map->color->color = RGB(0, 128, 0, 255);
-		if (win->side == 1 && win->raydir_y > 0)
-			map->color->color = RGB(255, 255, 0, 255);
-
-		if (win->side == 1)
-		{
-			map->color->color = map->color->color / 2;
-		}
-
-		mlx_verline(map, x, win->drawstart, win->drawend, map->color->color);
-		
-		// win->tex_num = map->maps[win->map_y][win->map_x] - 1;
-
 		// if (win->side == 0 && win->raydir_x > 0)
 		// 	map->color->color = RGB(0, 255, 0, 255);
 		// if (win->side == 0 && win->raydir_x < 0)
@@ -163,50 +148,107 @@ int	raycaster(t_data *map, t_window *win)
 		// if (win->side == 1 && win->raydir_y > 0)
 		// 	map->color->color = RGB(255, 255, 0, 255);
 
+		// if (win->side == 1)
+		// {
+		// 	map->color->color = map->color->color / 2;
+		// }
+
+		// mlx_verline(map, x, win->drawstart, win->drawend, map->color->color);
+		
+		// win->tex_num = map->maps[win->map_y][win->map_x] - 1;
+
+		if (win->side == 0 && win->raydir_x > 0)
+		{
+			map->img = map->texture->north_tex;
+			map->color->color = get_tex_pixel(map->texture->north_tex, win->tex_x, win->tex_y);
+		}
+		if (win->side == 0 && win->raydir_x < 0)
+		{
+			map->img = map->texture->south_tex;
+			map->color->color = get_tex_pixel(map->texture->south_tex, win->tex_x, win->tex_y);
+		}
+		if (win->side == 1 && win->raydir_y < 0)
+		{
+			map->img = map->texture->west_tex;
+			map->color->color = get_tex_pixel(map->texture->west_tex, win->tex_x, win->tex_y);
+		}
+		if (win->side == 1 && win->raydir_y > 0)
+		{
+			map->img = map->texture->east_tex ;
+			map->color->color = get_tex_pixel(map->texture->east_tex, win->tex_x, win->tex_y);
+		}
+		// printf("color before = %d\n", map->color->color);
+
+
+	// Set floor and ceiling colors in buffer
+	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
+	{
+		if (y < win->drawstart)
+			win->buffer[y][x] = (uint32_t)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 255);
+		else if (y > win->drawend)
+			win->buffer[y][x] = (uint32_t)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 255);
+	}
+
 		// printf("tex_num = %d\n", win->tex_num);
 
-		// // calculate value of wall_x
-		// if (win->side == 0)
-		// 	win->wall_x = win->pos_y + win->perpwalldist * win->raydir_y;
-		// else
-		// 	win->wall_x = win->pos_x + win->perpwalldist * win->raydir_x;
-		// win->wall_x -= floor((win->wall_x));
+		// calculate value of wall_x
+		if (win->side == 0)
+			win->wall_x = win->pos_y + win->perpwalldist * win->raydir_y;
+		else
+			win->wall_x = win->pos_x + win->perpwalldist * win->raydir_x;
+		win->wall_x -= floor((win->wall_x));
 
-		// // x coordinate on the texture
-		// win->tex_x = (int)(win->wall_x * (double)(map->img->img_width));
-		// if (win->side == 0 && win->raydir_x > 0)
-		// 	win->tex_x = map->img->img_width - win->tex_x - 1;
-		// if (win->side == 1 && win->raydir_y < 0)
-		// 	win->tex_x = map->img->img_width - win->tex_x - 1;
+
+		// char *dst = map->img->addr + (win->tex_y * map->img->line_length + win->tex_x * (map->img->bpp / 8));
+		// *(unsigned int*)dst = map->color->color;
+
+		// x coordinate on the texture
+		win->tex_x = (int)(win->wall_x * (double)(map->img->img_width));
+		if (win->side == 0 && win->raydir_x > 0)
+			win->tex_x = map->img->img_width - win->tex_x - 1;
+		if (win->side == 1 && win->raydir_y < 0)
+			win->tex_x = map->img->img_width - win->tex_x - 1;
 		// printf("tex_x = %d\n", win->tex_x);
 
-		// // how much to increase the texture coordinate per screen pixel
-		// win->step = 1.0 * map->img->img_height / win->lineheight;
+		// how much to increase the texture coordinate per screen pixel
+		win->step = 1.0 * (double)map->img->img_height / win->lineheight;
 
-		// // starting texture coordinate
-		// win->tex_pos = (win->drawstart - MAX_WINDOW_HEIGHT / 2 - 100 + win->lineheight / 2) * win->step;
+		// starting texture coordinate
+		win->tex_pos = (win->drawstart - 100 - MAX_WINDOW_HEIGHT / 2 + win->lineheight / 2) * win->step;
 		
-		// for (int y = win->drawstart; y < win->drawend; y++)
-		// {
-		// 	// cast the texture coordinate to integer, and mask with (tex_height - 1) in case of overflow
-		// 	win->tex_y = (int)win->tex_pos & (map->img->img_height - 1);
-		// 	win->tex_pos += win->step;
-		// 	// printf("tex_y = %d\n", win->tex_y);
-		// 	// printf("tex_pos = %f\n", win->tex_pos);
-		// 	// printf("color before = %d\n", map->color->color);
-		// 	// map->color->color = RGB(0,255,0,255);
-		// 	// printf("color mid = %d\n", map->color->color);
-		// 	// map->color->color = mlx_get_color_value(map->mlx, map->color->color);
-		// 	// printf("color after = %d\n", map->color->color);
-		// 	if (win->side == 1)
-		// 		map->color->color = (map->color->color >> 1) & 8355711;
-		// 	win->buffer[y][x] = (unsigned int)map->color->color;
-		// 	// printf("buffer[%d][%d] = %d\n", y, x, win->buffer[y][x]);
-		// }
+		for (int y = win->drawstart; y < win->drawend; y++)
+		{
+			// cast the texture coordinate to integer, and mask with (tex_height - 1) in case of overflow
+			win->tex_y = (int)win->tex_pos & (map->img->img_height - 1);
+			win->tex_pos += win->step;
+			// printf("tex_y = %d\n", win->tex_y);
+			// printf("tex_pos = %f\n", win->tex_pos);
+			// printf("color before = %d\n", map->color->color);
+			map->color->color = get_tex_pixel(map->img, win->tex_x, win->tex_y);
+			// printf("color mid = %d\n", map->color->color);
+			// map->color->color = mlx_get_color_value(map->mlx, map->color->color);
+			// printf("color after = %d\n", map->color->color);
+			// if (win->side == 1)
+			// 	map->color->color = (map->color->color >> 1) & 8355711;
+			win->buffer[y][x]= map->color->color;
+			// mlx_pixel_put(map->mlx, map->mlx_win, x, y, win->buffer[y][x]);
+			// printf("buffer[%d][%d] = %d\n", y, x, win->buffer[y][x]);
+		}
 		x++;
 	}
 
-	// draw_buffer(win->buffer[0]);
+	draw_buffer(map, win->buffer);
+	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+		{
+			win->buffer[i][j] = 0;
+			// mlx_pixel_put(map->mlx, map->mlx_win, j, i, win->buffer[i][j]);
+		}
+	}
+	// draw_buffer(map, win->buffer);
+	// printf("buffer[0][0] = %d\n", win->buffer[0][0]);
+
 	
 	// timinig for input and FPS counter
 	win->old_time = win->time;
@@ -216,24 +258,55 @@ int	raycaster(t_data *map, t_window *win)
 
 
 	// // Draw the image to the window
-	mlx_clear_window(map->mlx, map->mlx_win);
-	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
+	// mlx_clear_window(map->mlx, map->mlx_win);
+	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 
 	// speed modifiers
-	win->move_speed = win->frame_time * 5.0;
-	win->rot_speed = win->frame_time * 3.0;
+	win->move_speed = win->frame_time * 0.1;
+	win->rot_speed = win->frame_time * 0.5;
 
 	// printf("%d - x === %d - drawstart === %d - drawend\n", x, map->img->drawstart, map->img->drawend);
 	return (0);
 }
 
-// void	get_color(t_data *map, t_img *img, )
+// void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (y < MAX_WINDOW_HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < MAX_WINDOW_WIDTH)
+// 		{
+// 			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
+int	get_tex_pixel(t_img *texture, int x, int y)
+{
+	int				color;
+	char			*dst;
+
+	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
+	color = *(unsigned int *)dst;
+	return (color);
+}
 
 void ft_swap(int *a, int *b) {
   int temp = *a;
   *a = *b;
   *b = temp;
 }
+
+// void	add_texture(t_data *map, int x, int y1, int y2)
+// {
+	
+// }
 
 bool mlx_verline(t_data *map, int x, int y1, int y2,  int color)
 {
@@ -258,6 +331,8 @@ bool mlx_verline(t_data *map, int x, int y1, int y2,  int color)
 	map->win->drawstart = y1;
 	map->win->drawend = y2;
 
+	// add_texture(map, x, y1, y2);
+
 	y = map->win->drawstart;
 	while (y <= map->win->drawend)
 	{
@@ -277,23 +352,19 @@ void	ft_mlx_pixel_put(t_img *img, uint32_t *color)
 }
 
 
-void	draw_buffer(uint32_t *buffer)
+void draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
 {
-	uint32_t *bufp;
-
-	bufp = buffer;
+	// uint32_t *bufp = (uint32_t*)map->img->addr; 
 
 	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
 	{
 		for (int x = 0; x < MAX_WINDOW_WIDTH; x++)
 		{
-			*bufp = buffer[y * MAX_WINDOW_WIDTH + x];
-			bufp++;
+			// *bufp = buffer[y][x];
+			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+			// ft_mlx_pixel_put(map->img, &buffer[y][x]);
+			// bufp++;
 		}
-		bufp += 100 / 4;
-		bufp -= MAX_WINDOW_WIDTH;
 	}
-
-	// dst = map->img->addr + (y * map->img->line_length + x * (map->img->bpp / 8));
-	// *(unsigned int *)dst = buffer[y * MAX_WINDOW_WIDTH + x];
+	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 }
