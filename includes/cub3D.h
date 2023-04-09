@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/05 22:14:04 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 12:47:59 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,11 @@ typedef struct s_data
 	char				**map;
 	char				**maps;
 
-	char				**north_path;
-	char				**south_path;
-	char				**west_path;
-	char				**east_path;
-	char				**floor;
-	char				**ceiling;
-
-	int					found_no;
-	int					found_so;
-	int					found_we;
-	int					found_ea;
-	int					found_f;
-	int					found_c;
 
 	struct s_color		*color;
 	struct s_window		*win;
 	struct s_img		*img;
+	struct s_texture	*texture;
 
 	int					total_cols;
 	int					max_width;
@@ -83,17 +71,6 @@ typedef struct s_data
 	int					steps;
 }				t_data;
 
-typedef struct s_color
-{
-	int		floor_r;
-	int		floor_g;
-	int		floor_b;
-	int		ceiling_r;
-	int		ceiling_g;
-	int		ceiling_b;
-	u_int32_t		color;
-}					t_color;
-
 typedef struct s_img
 {
 	void	*img;
@@ -105,6 +82,38 @@ typedef struct s_img
 	int		img_height;
 	
 }			t_img;
+
+typedef struct s_texture
+{
+	t_img				north_tex;
+	t_img				south_tex;
+	t_img				west_tex;
+	t_img				east_tex;
+	char				**north_path;
+	char				**south_path;
+	char				**west_path;
+	char				**east_path;
+	char				**floor;
+	char				**ceiling;
+
+	int					found_no;
+	int					found_so;
+	int					found_we;
+	int					found_ea;
+	int					found_f;
+	int					found_c;
+}					t_texture;
+
+typedef struct s_color
+{
+	int		floor_r;
+	int		floor_g;
+	int		floor_b;
+	int		ceiling_r;
+	int		ceiling_g;
+	int		ceiling_b;
+	u_int32_t		color;
+}					t_color;
 
 typedef struct s_window
 {
@@ -142,8 +151,9 @@ typedef struct s_window
 	double	frame_time;
 	double	move_speed;
 	double	rot_speed;
+	int		*img_data;
 	u_int32_t		buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
-	int		**texture;
+	int		*texture;
 }
 				t_window;
 
@@ -152,15 +162,12 @@ typedef struct s_window
 
 bool mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int	raycaster(t_data *map, t_window *win);
-double absd(double num);
-void draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-// void draw_buffer(t_data *map, void *mlx, void *win, int w, int h, unsigned int *buffer);
-// void draw_buffer(t_data *map, void *mlx, void *win, int w, int h, unsigned int *buffer);
-int	ft_mlx_pixel_put(t_data *img, int x, int y, int num_color);
-// void	ft_mlx_pixel_put(t_data *mlx, int x, int y, int color);
+// void	draw_buffer(t_data *map, int x, int y, int color);
+void	draw_buffer(uint32_t *buffer);
 void	move(t_data *map);
 int	start_drawing(t_data *map);
 void	*init_img_struct(t_img *img);
+void	ft_mlx_pixel_put(t_img *img, uint32_t *color);
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);
@@ -170,21 +177,21 @@ bool			right(t_data *map, int i, int j);
 bool			check_surrounded_walls(t_data *map);
 
 // validate_map.c
-void			check_floor_rgbs(int i, t_data *map);
-void			check_ceiling_rgbs(int i, t_data *map);
-void			validate_map(t_data *map);
+// void			check_floor_rgbs(int i, t_data *map);
+// void			check_ceiling_rgbs(int i, t_data *map);
+void			validate_map(t_data *map, t_texture *texture);
 
 // compass_direction.c
-void			check_no(int i, t_data *map);
-void			check_so(int i, t_data *map);
-void			check_we(int i, t_data *map);
-void			check_ea(int i, t_data *map);
-void			check_compass_direction_in_file(int i, t_data *map);
+void			check_no(int i, t_data *map, t_texture *texture);
+void			check_so(int i, t_data *map, t_texture *texture);
+void			check_we(int i, t_data *map, t_texture *texture);
+void			check_ea(int i, t_data *map, t_texture *texture);
+void			check_compass_direction_in_file(int i, t_data *map, t_texture *texture);
 
 // parsing_config_info.c
-void			check_floor_rgbs(int i, t_data *map);
-void			check_ceiling_rgbs(int i, t_data *map);
-void			parsing_config_info(t_data *map);
+void			check_floor_rgbs(int i, t_data *map, t_texture *texture);
+void			check_ceiling_rgbs(int i, t_data *map, t_texture *texture);
+void			parsing_config_info(t_data *map, t_texture *texture);
 
 // load_configuration_file.c
 void			open_file(t_data *map);
@@ -200,6 +207,7 @@ void			parsing(int ac, char **av, t_data *map);
 void			*init_map_struct(t_data *Map);
 void			*init_window_struct(t_window *img);
 void			*init_color_struct(t_color *color);
+void			*init_texture_struct(t_texture *texture);
 
 // error.c
 void			error_exit(char *message);
@@ -221,8 +229,8 @@ void			move_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);
-void			load_texture(char c, int i, int j, t_window *img);
-int			load_textures(t_data *Map, t_img *img);
+int				load_texture(t_data *map, char *path, t_img img);
+int				load_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 
 #endif

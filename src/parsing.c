@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/06 17:13:32 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/07 18:20:03 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void	parsing(int ac, char **av, t_data *map)
 {
 	parsing_input(map, ac, av);
 	load_configuration_file(map);
-	parsing_config_info(map);
-	// validate_map(map);
+	parsing_config_info(map, map->texture);
+	validate_map(map, map->texture);
 }

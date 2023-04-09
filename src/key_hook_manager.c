@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/06 17:49:57 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/07 13:41:27 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	handle_keypress(int keycode, t_data *map)
 	else if (keycode == 1)
 		move_backward(map, map->win);
 	else if (keycode == 0)
-		move_left(map->win);
-	else if (keycode == 2)
 		move_right(map->win);
+	else if (keycode == 2)
+		move_left(map->win);
 	// if (Map->max_collectibles == 0)
 	// {
 	// 	Map->map[Map->exit_pos[0]][Map->exit_pos[1]] = 'E';
@@ -38,45 +38,49 @@ void move_forward(t_data *map, t_window *win)
 {
 	// double new_x = win->pos_x + win->dir_x * win->move_speed;
 	// double new_y = win->pos_y + win->dir_y * win->move_speed;
-	// if (map->maps[((int)(win->pos_y + win->dir_y * win->move_speed))][((int)(win->pos_x + win->dir_x * win->move_speed))] != '1')
-	// {
 	// 	win->pos_x = win->pos_x + win->dir_x * win->move_speed;
 	// 	win->pos_y = win->pos_y + win->dir_y * win->move_speed;
-	// }
 	(void)map;
 	printf("-------------------------------------------------------------------------");
 	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
-	win->pos_x += win->dir_x;
-	win->pos_y += win->dir_y;
+	if (map->maps[((int)(win->pos_y + win->dir_y))][((int)(win->pos_x + win->dir_x))] != '1')
+	{
+		win->pos_x += win->dir_x;
+		win->pos_y += win->dir_y;
+	}
 }
 
 void move_backward(t_data *map, t_window *win)
 {
-	double new_x = win->pos_x - win->dir_x * win->move_speed;
-	double new_y = win->pos_y - win->dir_y * win->move_speed;
-	if (map->maps[(int)new_y][(int)new_x] != '1')
+	// double new_x = win->pos_x - win->dir_x;
+	// double new_y = win->pos_y - win->dir_y;
+	if (map->maps[((int)(win->pos_y - win->dir_y))][((int)(win->pos_x - win->dir_x))] != '1')
 	{
-		win->pos_x = new_x;
-		win->pos_y = new_y;
+		win->pos_x -= win->dir_x;
+		win->pos_y -= win->dir_y;
 	}
+}
+
+void rotate_vector(double *x, double *y, double theta)
+{
+    double cos_theta = cos(theta);
+    double sin_theta = sin(theta);
+    double new_x = cos_theta * (*x) - sin_theta * (*y);
+    double new_y = sin_theta * (*x) + cos_theta * (*y);
+    *x = new_x;
+    *y = new_y;
 }
 
 void move_left(t_window *win)
 {
-	double old_dir_x = win->dir_x;
-	win->dir_x = win->dir_x * cos(win->rot_speed) - win->dir_y * sin(win->rot_speed);
-	win->dir_y = old_dir_x * sin(win->rot_speed) + win->dir_y * cos(win->rot_speed);
-	double old_plane_x = win->plane_x;
-	win->plane_x = win->plane_x * cos(win->rot_speed) - win->plane_y * sin(win->rot_speed);
-	win->plane_y = old_plane_x * sin(win->rot_speed) + win->plane_y * cos(win->rot_speed);
+    rotate_vector(&(win->dir_x), &(win->dir_y), win->rot_speed);
+    rotate_vector(&(win->plane_x), &(win->plane_y), win->rot_speed);
+	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
 }
 
 void move_right(t_window *win)
 {
-	double old_dir_x = win->dir_x;
-	win->dir_x = win->dir_x * cos(-win->rot_speed) - win->dir_y * sin(-win->rot_speed);
-	win->dir_y = old_dir_x * sin(-win->rot_speed) + win->dir_y * cos(-win->rot_speed);
-	double old_plane_x = win->plane_x;
-	win->plane_x = win->plane_x * cos(-win->rot_speed) - win->plane_y * sin(-win->rot_speed); 
-	win->plane_y = old_plane_x * sin(-win->rot_speed) + win->plane_y * cos(-win->rot_speed);
+    rotate_vector(&(win->dir_x), &(win->dir_y), -win->rot_speed);
+    rotate_vector(&(win->plane_x), &(win->plane_y), -win->rot_speed);
+	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
 }

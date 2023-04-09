@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/06 17:37:56 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/08 22:44:01 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ void	*init_map_struct(t_data *Map)
 	Map->read_bytes = 0;
 
 	// mapfile parsing
-	Map->line = NULL;
-	Map->map = NULL;
-	Map->maps = NULL;
-	Map->north_path = NULL;
-	Map->south_path = NULL;
-	Map->west_path = NULL;
-	Map->east_path = NULL;
-	Map->found_no = 0;
-	Map->found_so = 0;
-	Map->found_we = 0;
-	Map->found_ea = 0;
+	// Map->line = NULL;
+	// Map->map = NULL;
+	// Map->maps = NULL;
+	// Map->north_path = NULL;
+	// Map->south_path = NULL;
+	// Map->west_path = NULL;
+	// Map->east_path = NULL;
+	// Map->found_no = 0;
+	// Map->found_so = 0;
+	// Map->found_we = 0;
+	// Map->found_ea = 0;
 
 	Map->max_width = 0;
 	Map->max_height = 0;
@@ -77,7 +77,7 @@ void	*init_window_struct(t_window *img)
 	img->dir_x = -1.0;
 	img->dir_y = 0.0;
 	img->plane_x = 0.0;
-	img->plane_y = 0.66;
+	img->plane_y = 1.0;
 	img->camera_x = 0.0;
 	img->raydir_x = 0.0;
 	img->raydir_y = 0.0;
@@ -102,7 +102,22 @@ void	*init_window_struct(t_window *img)
 	img->time = 0;
 	img->old_time = 0;
 	img->frame_time = 0.0;
+	img->img_data = NULL;
 	return (img);
+}
+
+void	*init_texture_struct(t_texture *texture)
+{
+	texture = malloc(sizeof(t_texture));
+	texture->north_path = NULL;
+	texture->south_path = NULL;
+	texture->west_path = NULL;
+	texture->east_path = NULL;
+	texture->found_no = 0;
+	texture->found_so = 0;
+	texture->found_we = 0;
+	texture->found_ea = 0;
+	return (texture);
 }
 
 void	*init_color_struct(t_color *color)
@@ -147,6 +162,7 @@ int	main(int ac, char **av)
 	map->win = init_window_struct(map->win);
 	map->color = init_color_struct(map->color);
 	map->img = init_img_struct(map->img);
+	map->texture = init_texture_struct(map->texture);
 	parsing(ac, av, map);
 
 	map->mlx = mlx_init();
@@ -154,23 +170,28 @@ int	main(int ac, char **av)
 
 	// map->img->mlx_win = mlx_new_image(map->img->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
-	//mlx_loop_hook(map->mlx, start_drawing, map);
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	// mlx_loop_hook(map->mlx, start_drawing, map);
+	// load_textures(map);
 	start_drawing(map);
+	// mlx_put_image_to_window(map->mlx, map->win, map->img->img, 0, 0);
+	mlx_destroy_image(map->mlx, map->img->img);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
-	if (map->north_path != NULL)
-		ft_free((void **)map->north_path);
-	if (map->south_path != NULL)
-		ft_free((void **)map->south_path);
-	if (map->west_path != NULL)
-		ft_free((void **)map->west_path);
-	if (map->east_path != NULL) 
-		ft_free((void **)map->east_path);
-	if (map->floor != NULL)
-		ft_free((void **)map->floor);
-	if (map->ceiling != NULL)
-		ft_free((void **)map->ceiling);
+	if (map->texture->north_path != NULL)
+		ft_free((void **)map->texture->north_path);
+	if (map->texture->south_path != NULL)
+		ft_free((void **)map->texture->south_path);
+	if (map->texture->west_path != NULL)
+		ft_free((void **)map->texture->west_path);
+	if (map->texture->east_path != NULL)
+		ft_free((void **)map->texture->east_path);
+	if (map->texture->floor != NULL)
+		ft_free((void **)map->texture->floor);
+	if (map->texture->ceiling != NULL)
+		ft_free((void **)map->texture->ceiling);
 	// ft_free((void **)map->maps, map);
 	// if (map->img->texture != NULL)
 	free(map->win->texture);
