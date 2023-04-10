@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 18:48:54 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 21:08:20 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ typedef struct s_window
 	double	move_speed;
 	double	rot_speed;
 	// int		*img_data;
-	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	unsigned int	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 	// int		*texture;
 }				t_window;
 
@@ -164,11 +164,10 @@ bool mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int	raycaster(t_data *map, t_window *win);
 // void	draw_buffer(t_data *map, int x, int y, int color);
 // void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
+void	draw_buffer(t_data *map, unsigned int buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void	move(t_data *map);
 int	start_drawing(t_data *map);
 
-void	ft_mlx_pixel_put(t_img *img, uint32_t *color);
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);

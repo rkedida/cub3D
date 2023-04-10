@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 18:49:16 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 21:01:16 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int	main(int ac, char **av)
 	free(map->color);
 	ft_free((void **)map->map);
 	free(map);
-	// if ((map->max_width - 1) * map->img->img_width > MAX_WINDOW_WIDTH \
+	// if ((map->max_width - 1) * map->img->img_width > MAX_WINDOW_WIDTH 
 	// 	|| map->max_height * map->img->img_height > MAX_WINDOW_HEIGHT)
 	// 	error_exit("Window to big max resolution 1920x1080.");
 	// mlx_key_hook(map->img->mlx_win, &handle_keypress, map);

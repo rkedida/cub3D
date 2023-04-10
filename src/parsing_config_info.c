@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/07 17:04:08 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 21:01:22 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	parsing_config_info(t_data *map, t_texture *texture)
 	{
 		check_compass_direction_in_file(i, map, texture);
 		check_floor_rgbs(i, map, texture);
+	// printf("here! parsing_config_info\n");
 		check_ceiling_rgbs(i, map, texture);
 		i++;
 	}

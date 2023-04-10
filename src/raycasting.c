@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 17:31:10 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 20:12:19 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,9 @@ int	raycaster(t_data *map, t_window *win)
 	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
 	{
 		if (y < win->drawstart)
-			win->buffer[y][x] = (uint32_t)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 255);
+			win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 255);
 		else if (y > win->drawend)
-			win->buffer[y][x] = (uint32_t)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 255);
+			win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 255);
 	}
 
 		// printf("tex_num = %d\n", win->tex_num);
@@ -343,16 +343,16 @@ bool mlx_verline(t_data *map, int x, int y1, int y2,  int color)
 	return true;
 }
 
-void	ft_mlx_pixel_put(t_img *img, uint32_t *color)
-{
-	char	*dst;
+// void	ft_mlx_pixel_put(t_img *img, uint32_t *color)
+// {
+// 	char	*dst;
 
-	dst = img->addr + (img->line_length * (img->bpp / 8));
-	*(unsigned int *)dst = *color;
-}
+// 	dst = img->addr + (img->line_length * (img->bpp / 8));
+// 	*(unsigned int *)dst = *color;
+// }
 
 
-void draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
+void draw_buffer(t_data *map, unsigned int buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
 {
 	// uint32_t *bufp = (uint32_t*)map->img->addr; 
 

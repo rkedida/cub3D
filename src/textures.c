@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 18:49:58 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 21:15:37 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	load_textures(t_data *map)
 int	cleanup_and_exit(t_data *map)
 {
 	mlx_destroy_image(map->mlx, map->img->img);
-	mlx_clear_window(map->mlx, map->mlx_win);
+	// mlx_clear_window(map->mlx, map->mlx_win);
+	// mlx_destroy_window(map->mlx, map->mlx_win);
 
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
@@ -80,11 +81,13 @@ int	cleanup_and_exit(t_data *map)
 		free(map->texture->west_tex);
 	if (map->texture->east_tex != NULL)
 		free(map->texture->east_tex);
+	
 	// printf("%p\n", map->texture);
 	// free(map->img->img);
 	// free(map->img->addr);
-	// free(map->img);
+
 	free(map->texture);
+	// free(map->img);
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
