@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 21:25:16 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 23:29:37 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,8 @@ int	main(int ac, char **av)
 
 	// map->img->mlx_win = mlx_new_image(map->img->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
-	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
-	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	// map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	// map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 	// printf("hi\n");
 	load_textures(map);
 	// mlx_loop_hook(map->mlx, start_drawing, map);

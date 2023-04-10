@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 22:47:06 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/09 23:14:51 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,8 @@ int	raycaster(t_data *map, t_window *win)
 			// printf("color mid = %d\n", map->color->color);
 			// map->color->color = mlx_get_color_value(map->mlx, map->color->color);
 			// printf("color after = %d\n", map->color->color);
-			// if (win->side == 1)
-			// 	map->color->color = (map->color->color >> 1) & 8355711;
+			if (win->side == 1)
+				map->color->color = (map->color->color >> 1) & 8355711;
 			win->buffer[y][x]= map->color->color;
 			// mlx_pixel_put(map->mlx, map->mlx_win, x, y, win->buffer[y][x]);
 			// printf("buffer[%d][%d] = %d\n", y, x, win->buffer[y][x]);
