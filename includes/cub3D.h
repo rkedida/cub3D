@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 16:14:01 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 18:48:54 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,9 @@ typedef struct s_window
 	double	frame_time;
 	double	move_speed;
 	double	rot_speed;
-	int		*img_data;
+	// int		*img_data;
 	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
-	int		*texture;
+	// int		*texture;
 }				t_window;
 
 				void move_forward(t_data *map, t_window *win);

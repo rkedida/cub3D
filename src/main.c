@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 17:04:04 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 18:49:16 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_window	*init_window_struct(void)
 	win->time = 0;
 	win->old_time = 0;
 	win->frame_time = 0.0;
-	win->img_data = NULL;
+	// win->img_data = NULL;
 	return (win);
 }
 
@@ -167,6 +167,7 @@ int	main(int ac, char **av)
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
+
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
 	if (map->texture->south_path != NULL)
@@ -179,6 +180,7 @@ int	main(int ac, char **av)
 		ft_free((void **)map->texture->floor);
 	if (map->texture->ceiling != NULL)
 		ft_free((void **)map->texture->ceiling);
+
 	if (map->texture->north_tex != NULL)
 		free(map->texture->north_tex);
 	if (map->texture->south_tex != NULL)
@@ -188,7 +190,6 @@ int	main(int ac, char **av)
 	if (map->texture->east_tex != NULL)
 		free(map->texture->east_tex);
 	
-	free(map->win->texture);
 	free(map->texture);
 	free(map->img);
 	free(map->win);

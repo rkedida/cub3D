@@ -1,7 +1,7 @@
 NO ./xpm/38b4a7d6673ca3009f95755fd993e1f3-_1__1.xpm
 SO ./xpm/ground1.xpm
-WE ./xpm/38b4a7d6673ca3009f95755fd993e1f3-_1__1.xpm
-EA ./xpm/ground1.xpm
+WE ./xpm/collectible1.xpm
+EA ./xpm/player1.xpm
 F 165,42,42
 C 0,255, 0
 111111111111111111111111111111111111111

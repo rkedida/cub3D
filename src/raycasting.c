@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 23:14:51 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 17:31:10 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,8 +262,8 @@ int	raycaster(t_data *map, t_window *win)
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 
 	// speed modifiers
-	win->move_speed = win->frame_time * 0.1;
-	win->rot_speed = win->frame_time * 0.5;
+	win->move_speed = win->frame_time * 5;
+	win->rot_speed = win->frame_time * 3;
 
 	// printf("%d - x === %d - drawstart === %d - drawend\n", x, map->img->drawstart, map->img->drawend);
 	return (0);
