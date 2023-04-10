@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/09 18:06:14 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 16:14:01 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_data
 	// map Parsing
 	int					fd;
 	int					read_bytes;
-	char				*line;
+	// char				*line;
 	char				**map;
 	char				**maps;
 
@@ -154,8 +154,7 @@ typedef struct s_window
 	int		*img_data;
 	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 	int		*texture;
-}
-				t_window;
+}				t_window;
 
 				void move_forward(t_data *map, t_window *win);
 				void move_backward(t_data *map, t_window *win);
@@ -168,7 +167,7 @@ int	raycaster(t_data *map, t_window *win);
 void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void	move(t_data *map);
 int	start_drawing(t_data *map);
-void	*init_img_struct(t_img *img);
+
 void	ft_mlx_pixel_put(t_img *img, uint32_t *color);
 
 // surrounded _walls.c
@@ -206,10 +205,11 @@ void			parsing_input(t_data *map, int ac, char **av);
 void			parsing(int ac, char **av, t_data *map);
 
 // main.c
-void			*init_map_struct(t_data *Map);
-void			*init_window_struct(t_window *img);
-void			*init_color_struct(t_color *color);
-void			*init_texture_struct(t_texture *texture);
+t_data			*init_map_struct(void);
+t_window		*init_window_struct(void);
+t_texture		*init_texture_struct(void);
+t_color			*init_color_struct(void);
+t_img			*init_img_struct(void);
 
 // error.c
 void			error_exit(char *message);

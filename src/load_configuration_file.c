@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/04 00:54:43 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/10 16:14:41 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ void	ft_append(char **str, char c)
 void	read_append_split_file(t_data *map)
 {
 	char		*buf;
+	char		*line;
 
 	buf = NULL;
+	line = NULL;
 	buf = ft_malloc(buf, 1);
-	map->line = ft_malloc(map->line, 1);
+	line = ft_malloc(line, 1);
 	map->read_bytes = read(map->fd, buf, 1);
 	while (map->read_bytes > 0)
 	{
-		ft_append(&(map->line), buf[0]);
+		ft_append(&line, buf[0]);
 		map->read_bytes = read(map->fd, buf, 1);
 	}
-	map->map = ft_split(map->line, '\n');
+	map->map = ft_split(line, '\n');
 	free(buf);
-	free(map->line);
+	free(line);
 	close(map->fd);
 }
 
