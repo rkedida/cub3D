@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 15:33:18 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 20:36:46 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	parsing_input(t_data *map, int ac, char **av)
 	{
 		map->map_path = av[1];
 		map->check = ft_strchr(map->map_path, '.');
-		// if (ft_strlen(av[1]) < 4)
-		// 	error_exit("is not a Valid map file.");
 		if (ft_strcmp(map->map_path + (ft_strlen(av[1]) - 4), ".cub") != 0)
 			error_exit("is not a Valid map file.");
 		else if (ft_strlen(map->check) > 4)

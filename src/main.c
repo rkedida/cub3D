@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 03:44:30 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 20:42:43 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 t_data	*init_map_struct(void)
 {
-	t_data *map;
+	t_data	*map;
 
-	
 	map = malloc(sizeof(t_data));
+	if (!map)
+		error_exit("map struct init failed.");
 	map->mlx = NULL;
 	map->mlx_win = NULL;
 
@@ -30,8 +31,6 @@ t_data	*init_map_struct(void)
 	map->fd = 0;
 	map->read_bytes = 0;
 
-	// mapfile parsing
-	// map->line = NULL;
 	map->map = NULL;
 	map->maps = NULL;
 
@@ -44,9 +43,11 @@ t_data	*init_map_struct(void)
 
 t_window	*init_window_struct(void)
 {
-	t_window *win;
+	t_window	*win;
 
 	win = malloc(sizeof(t_window));
+	if (!win)
+		error_exit("window struct init failed.");
 	win->map_x = 0;
 	win->map_y = 0;
 	win->pos_x = 0.0;
@@ -75,21 +76,22 @@ t_window	*init_window_struct(void)
 	win->tex_y = 0;
 	win->step = 0.0;
 	win->tex_pos = 0.0;
-	win->tex_num = 0;
 	win->time = 0;
 	win->old_time = 0;
 	win->frame_time = 0.0;
 	win->move_speed = 0.0;
 	win->rot_speed = 0.0;
-	// win->img_data = NULL;
+
 	return (win);
 }
 
 t_img	*init_img_struct(void)
 {
-	t_img *img;
+	t_img	*img;
 
 	img = malloc(sizeof(t_img));
+	if (!img)
+		error_exit("img struct init failed.");
 	img->img = NULL;
 	img->addr = NULL;
 	img->bpp = 0;
@@ -102,14 +104,16 @@ t_img	*init_img_struct(void)
 
 t_texture	*init_texture_struct(void)
 {
-	t_texture *texture;
+	t_texture	*texture;
 
 	texture = malloc(sizeof(t_texture));
+	if (!texture)
+		error_exit("texture struct init failed.");
 	texture->north_tex = NULL;
 	texture->south_tex = NULL;
 	texture->west_tex = NULL;
 	texture->east_tex = NULL;
-	 
+
 	texture->north_path = NULL;
 	texture->south_path = NULL;
 	texture->west_path = NULL;
@@ -127,9 +131,11 @@ t_texture	*init_texture_struct(void)
 
 t_color	*init_color_struct(void)
 {
-	t_color *color;
+	t_color	*color;
 
 	color = malloc(sizeof(t_color));
+	if (!color)
+		error_exit("color struct init failed.");
 	color->floor_r = 0;
 	color->floor_g = 0;
 	color->floor_b = 0;
@@ -152,20 +158,10 @@ int	main(int ac, char **av)
 	leaks();
 	atexit(leaks);
 	map = init_map_struct();
-	if (!map)
-		error_exit("map struct init failed.");
 	map->win = init_window_struct();
-	if (!map->win)
-		error_exit("window struct init failed.");
 	map->texture = init_texture_struct();
-	if (!map->texture)
-		error_exit("texture struct init failed.");
 	map->color = init_color_struct();
-	if (!map->color)
-		error_exit("color struct init failed.");
 	map->img = init_img_struct();
-	if (!map->img)
-		error_exit("img struct init failed.");
 	parsing(ac, av, map);
 
 	map->mlx = mlx_init();
@@ -175,15 +171,12 @@ int	main(int ac, char **av)
 	if (!map->mlx_win)
 		error_exit("mlx_new_window() failed\n");
 
-	// map->img->mlx_win = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
-	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
 	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
-	// printf("hi\n");
 	load_textures(map);
+
 	// mlx_loop_hook(map->mlx, start_drawing, map);
 	start_drawing(map);
-	// mlx_put_image_to_window(map->mlx, map->win, map->img->img, 0, 0);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
@@ -210,16 +203,11 @@ int	main(int ac, char **av)
 	if (map->texture->ceiling != NULL)
 		ft_free((void **)map->texture->ceiling);
 
-	
 	free(map->texture);
 	free(map->img);
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
 	free(map);
-	// if ((map->max_width - 1) * map->img->img_width > MAX_WINDOW_WIDTH 
-	// 	|| map->max_height * map->img->img_height > MAX_WINDOW_HEIGHT)
-	// 	error_exit("Window to big max resolution 1920x1080.");
-	// mlx_key_hook(map->img->mlx_win, &handle_keypress, map);
 	return (0);
 }

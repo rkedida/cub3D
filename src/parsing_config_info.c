@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 04:13:04 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 20:40:23 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,16 +168,15 @@ void	parsing_config_info(t_data *map, t_texture *texture)
 		printf("%s\n", map->map[i]);
 		check_compass_direction_in_file(i, map, texture);
 		check_floor_rgbs(i, map, texture);
-	// printf("here! parsing_config_info\n");
 		check_ceiling_rgbs(i, map, texture);
-		if (texture->found_no == 1 && texture->found_so == 1 && texture->found_we == 1 \
-		&& texture->found_ea == 1 && texture->found_f == 1 && texture->found_c == 1)
+		if (texture->found_no == 1 && texture->found_so == 1 \
+			&& texture->found_we == 1 && texture->found_ea == 1 \
+			&& texture->found_f == 1 && texture->found_c == 1)
 			break ;
 		i++;
 	}
 	if (map->color == NULL)
 		error_exit("map->color is NULL");
-	printf("foun_no: %d, found_so: %d, found_we: %d, found_ea: %d, found_f: %d, found_c: %d\n", texture->found_no, texture->found_so, texture->found_we, texture->found_ea, texture->found_f, texture->found_c);
 	if (texture->north_path == NULL && texture->south_path == NULL \
 		&& texture->west_path == NULL && texture->east_path == NULL \
 		&& texture->floor == NULL && texture->ceiling == NULL)
@@ -185,7 +184,6 @@ void	parsing_config_info(t_data *map, t_texture *texture)
 	else if (texture->found_no != 1 || texture->found_so != 1 || texture->found_we != 1 \
 		|| texture->found_ea != 1 || texture->found_f != 1 || texture->found_c != 1)
 		error_exit("Compass Invalid Path");
-		// texture->found_no = 1;
 	else
 		map->maps = map->map + 6;
 }

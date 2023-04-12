@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 02:12:04 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 19:25:18 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 # define MAX_WINDOW_WIDTH 1920
 # define MAX_WINDOW_HEIGHT 1080
-# define RED 255,120,0
+// # define RED 255,120,0
 
 
 typedef struct s_data
@@ -55,20 +55,6 @@ typedef struct s_data
 	struct s_img		*img;
 	struct s_texture	*texture;
 
-	// int					total_cols;
-	// int					max_width;
-	// int					max_height;
-	// int					cols;
-	// int					rows;
-	// int					player;
-	// int					num_exits;
-	// int					num_collectibles;
-	// int					max_collectibles;
-	// int					player_pos[2];
-	// int					exit_pos[2];
-	// bool				**visited;
-	// bool				found_exit;
-	// int					steps;
 }				t_data;
 
 typedef struct s_window
@@ -101,15 +87,12 @@ typedef struct s_window
 	int		tex_y;
 	double	step;
 	double	tex_pos;
-	int		tex_num;
 	double	time;
 	double	old_time;
 	double	frame_time;
 	double	move_speed;
 	double	rot_speed;
-	// int		*img_data;
-	u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
-	// int		*texture;
+	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 }				t_window;
 
 typedef struct s_img
@@ -121,7 +104,6 @@ typedef struct s_img
 	int		endian;
 	int		img_width;
 	int		img_height;
-	
 }			t_img;
 
 typedef struct s_texture
@@ -147,27 +129,26 @@ typedef struct s_texture
 
 typedef struct s_color
 {
-	int		floor_r;
-	int		floor_g;
-	int		floor_b;
-	int		ceiling_r;
-	int		ceiling_g;
-	int		ceiling_b;
+	int				floor_r;
+	int				floor_g;
+	int				floor_b;
+	int				ceiling_r;
+	int				ceiling_g;
+	int				ceiling_b;
 	u_int32_t		color;
 }					t_color;
 
 
-				void move_forward(t_data *map, t_window *win);
-				void move_backward(t_data *map, t_window *win);
+void			move_forward(t_data *map, t_window *win);
+void			move_backward(t_data *map, t_window *win);
 
-int	get_tex_pixel(t_img *texture, int x, int y);
-bool mlx_verline(t_data *map, int x, int y1, int y2, int color);
-int	raycaster(t_data *map, t_window *win);
-// void	draw_buffer(t_data *map, int x, int y, int color);
-// void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-void	draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-void	move(t_data *map);
-int	start_drawing(t_data *map);
+int				get_tex_pixel(t_img *texture, int x, int y);
+bool			mlx_verline(t_data *map, int x, int y1, int y2, int color);
+int				raycaster(t_data *map, t_window *win);
+void			draw_buffer(t_data *map, \
+						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
+void			move(t_data *map);
+int				start_drawing(t_data *map);
 
 
 // surrounded _walls.c
@@ -231,7 +212,7 @@ void			move_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);
-int				load_texture(t_data *map, char *path, t_img *img);
+void				load_texture(t_data *map, char *path, t_img **img);
 int				load_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 
