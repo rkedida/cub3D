@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 20:12:19 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 04:17:57 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ int	start_drawing(t_data *map)
 	raycaster(map, map->win);
 	// draw_buffer(map, map->win->buffer);
 	// mlx_clear_window(map->mlx, map->mlx_win);
+	draw_buffer(map, map->win->buffer);
+	// for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	// {
+	// 	for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+	// 	{
+	// 		map->win->buffer[i][j] = 0;
+	// 		// mlx_pixel_put(map->mlx, map->mlx_win, j, i, win->buffer[i][j]);
+	// 	}
+	// }
 	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	// printf("%d - linelength\n", map->img->line_length);
 	return (0);
@@ -237,15 +246,15 @@ int	raycaster(t_data *map, t_window *win)
 		x++;
 	}
 
-	draw_buffer(map, win->buffer);
-	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
-		{
-			win->buffer[i][j] = 0;
-			// mlx_pixel_put(map->mlx, map->mlx_win, j, i, win->buffer[i][j]);
-		}
-	}
+	// draw_buffer(map, win->buffer);
+	// for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	// {
+	// 	for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+	// 	{
+	// 		win->buffer[i][j] = 0;
+	// 		// mlx_pixel_put(map->mlx, map->mlx_win, j, i, win->buffer[i][j]);
+	// 	}
+	// }
 	// draw_buffer(map, win->buffer);
 	// printf("buffer[0][0] = %d\n", win->buffer[0][0]);
 
@@ -269,23 +278,34 @@ int	raycaster(t_data *map, t_window *win)
 	return (0);
 }
 
-// void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
+// static void	ft_mlx_pixel_put(t_img *img, int x, int y, uint32_t *color)
 // {
-// 	int	x;
-// 	int	y;
+// 	char	*dst;
+// 	(void)x;
+// 	(void)y;
 
-// 	y = 0;
-// 	while (y < MAX_WINDOW_HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < MAX_WINDOW_WIDTH)
-// 		{
-// 			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
+// 	dst = img->addr + (img->line_length * (img->bpp / 8));
+// 	*(unsigned int *)dst = *color;
 // }
+
+void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < MAX_WINDOW_HEIGHT)
+	{
+		x = 0;
+		while (x < MAX_WINDOW_WIDTH)
+		{
+			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+			// ft_mlx_pixel_put(map->img, x, y, &buffer[y][x]);
+			x++;
+		}
+		y++;
+	}
+}
 
 int	get_tex_pixel(t_img *texture, int x, int y)
 {
@@ -343,28 +363,20 @@ bool mlx_verline(t_data *map, int x, int y1, int y2,  int color)
 	return true;
 }
 
-// void	ft_mlx_pixel_put(t_img *img, uint32_t *color)
+
+// void draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
 // {
-// 	char	*dst;
+// 	// uint32_t *bufp = (uint32_t*)map->img->addr; 
 
-// 	dst = img->addr + (img->line_length * (img->bpp / 8));
-// 	*(unsigned int *)dst = *color;
+// 	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
+// 	{
+// 		for (int x = 0; x < MAX_WINDOW_WIDTH; x++)
+// 		{
+// 			// *bufp = buffer[y][x];
+// 			// ft_mlx_pixel_put(map->img, &buffer[y][x]);
+// 			// mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+// 			// bufp++;
+// 		}
+// 	}
+// 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 // }
-
-
-void draw_buffer(t_data *map, unsigned int buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
-{
-	// uint32_t *bufp = (uint32_t*)map->img->addr; 
-
-	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
-	{
-		for (int x = 0; x < MAX_WINDOW_WIDTH; x++)
-		{
-			// *bufp = buffer[y][x];
-			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
-			// ft_mlx_pixel_put(map->img, &buffer[y][x]);
-			// bufp++;
-		}
-	}
-	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
-}

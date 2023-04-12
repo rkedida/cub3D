@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 21:08:20 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 02:12:04 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,62 @@ typedef struct s_data
 	struct s_img		*img;
 	struct s_texture	*texture;
 
-	int					total_cols;
-	int					max_width;
-	int					max_height;
-	int					cols;
-	int					rows;
-	int					player;
-	int					num_exits;
-	int					num_collectibles;
-	int					max_collectibles;
-	int					player_pos[2];
-	int					exit_pos[2];
-	bool				**visited;
-	bool				found_exit;
-	int					steps;
+	// int					total_cols;
+	// int					max_width;
+	// int					max_height;
+	// int					cols;
+	// int					rows;
+	// int					player;
+	// int					num_exits;
+	// int					num_collectibles;
+	// int					max_collectibles;
+	// int					player_pos[2];
+	// int					exit_pos[2];
+	// bool				**visited;
+	// bool				found_exit;
+	// int					steps;
 }				t_data;
+
+typedef struct s_window
+{
+	int		map_x;
+	int		map_y;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	camera_x;
+	double	raydir_x;
+	double	raydir_y;
+	double	sidedist_x;
+	double	sidedist_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	perpwalldist;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	int		lineheight;
+	int		drawstart;
+	int		drawend;
+	double	wall_x;
+	int		tex_x;
+	int		tex_y;
+	double	step;
+	double	tex_pos;
+	int		tex_num;
+	double	time;
+	double	old_time;
+	double	frame_time;
+	double	move_speed;
+	double	rot_speed;
+	// int		*img_data;
+	u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	// int		*texture;
+}				t_window;
 
 typedef struct s_img
 {
@@ -115,46 +156,6 @@ typedef struct s_color
 	u_int32_t		color;
 }					t_color;
 
-typedef struct s_window
-{
-	int		map_x;
-	int		map_y;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	camera_x;
-	double	raydir_x;
-	double	raydir_y;
-	double	sidedist_x;
-	double	sidedist_y;
-	double	deltadist_x;
-	double	deltadist_y;
-	double	perpwalldist;
-	int		step_x;
-	int		step_y;
-	int		hit;
-	int		side;
-	int		lineheight;
-	int		drawstart;
-	int		drawend;
-	double	wall_x;
-	int		tex_x;
-	int		tex_y;
-	double	step;
-	double	tex_pos;
-	int		tex_num;
-	double	time;
-	double	old_time;
-	double	frame_time;
-	double	move_speed;
-	double	rot_speed;
-	// int		*img_data;
-	unsigned int	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
-	// int		*texture;
-}				t_window;
 
 				void move_forward(t_data *map, t_window *win);
 				void move_backward(t_data *map, t_window *win);
@@ -164,7 +165,7 @@ bool mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int	raycaster(t_data *map, t_window *win);
 // void	draw_buffer(t_data *map, int x, int y, int color);
 // void	draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-void	draw_buffer(t_data *map, unsigned int buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
+void	draw_buffer(t_data *map, u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void	move(t_data *map);
 int	start_drawing(t_data *map);
 

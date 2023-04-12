@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 17:15:29 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 18:23:08 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_keypress(int keycode, t_data *map)
 	// 	Map->map[Map->exit_pos[0]][Map->exit_pos[1]] = 'E';
 	// 	load_texture('E', Map->exit_pos[0], Map->exit_pos[1], Map->img);
 	// }
-	if (keycode == 53 || keycode == 13 || keycode ==1 || keycode == 0 || keycode == 2)
+	if ( keycode == 13 || keycode ==1 || keycode == 0 || keycode == 2)
 		start_drawing(map);
 	return (0);
 }
@@ -63,24 +63,24 @@ void move_backward(t_data *map, t_window *win)
 
 void rotate_vector(double *x, double *y, double theta)
 {
-    double cos_theta = cos(theta);
-    double sin_theta = sin(theta);
-    double new_x = cos_theta * (*x) - sin_theta * (*y);
-    double new_y = sin_theta * (*x) + cos_theta * (*y);
-    *x = new_x;
-    *y = new_y;
+	double cos_theta = cos(theta);
+	double sin_theta = sin(theta);
+	double new_x = cos_theta * (*x) - sin_theta * (*y);
+	double new_y = sin_theta * (*x) + cos_theta * (*y);
+	*x = new_x;
+	*y = new_y;
 }
 
 void move_left(t_window *win)
 {
-    rotate_vector(&(win->dir_x), &(win->dir_y), win->rot_speed);
-    rotate_vector(&(win->plane_x), &(win->plane_y), win->rot_speed);
+	rotate_vector(&(win->dir_x), &(win->dir_y), win->rot_speed);
+	rotate_vector(&(win->plane_x), &(win->plane_y), win->rot_speed);
 	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
 }
 
 void move_right(t_window *win)
 {
-    rotate_vector(&(win->dir_x), &(win->dir_y), -win->rot_speed);
-    rotate_vector(&(win->plane_x), &(win->plane_y), -win->rot_speed);
+	rotate_vector(&(win->dir_x), &(win->dir_y), -win->rot_speed);
+	rotate_vector(&(win->plane_x), &(win->plane_y), -win->rot_speed);
 	printf("pos = %f,%f\ndir = %f,%f\n", win->pos_x, win->pos_y, win->dir_x, win->dir_y);
 }

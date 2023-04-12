@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/10 21:01:16 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 03:44:30 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ t_window	*init_window_struct(void)
 	win = malloc(sizeof(t_window));
 	win->map_x = 0;
 	win->map_y = 0;
-	win->pos_x = 16.0;
-	win->pos_y = 9;
-	win->dir_x = -1.0;
+	win->pos_x = 0.0;
+	win->pos_y = 0.0;
+	win->dir_x = 0.0;
 	win->dir_y = 0.0;
 	win->plane_x = 0.0;
-	win->plane_y = 1.0;
+	win->plane_y = 0.0;
 	win->camera_x = 0.0;
 	win->raydir_x = 0.0;
 	win->raydir_y = 0.0;
@@ -79,8 +79,25 @@ t_window	*init_window_struct(void)
 	win->time = 0;
 	win->old_time = 0;
 	win->frame_time = 0.0;
+	win->move_speed = 0.0;
+	win->rot_speed = 0.0;
 	// win->img_data = NULL;
 	return (win);
+}
+
+t_img	*init_img_struct(void)
+{
+	t_img *img;
+
+	img = malloc(sizeof(t_img));
+	img->img = NULL;
+	img->addr = NULL;
+	img->bpp = 0;
+	img->line_length = 0;
+	img->endian = 0;
+	img->img_width = 0;
+	img->img_height = 0;
+	return (img);
 }
 
 t_texture	*init_texture_struct(void)
@@ -88,14 +105,23 @@ t_texture	*init_texture_struct(void)
 	t_texture *texture;
 
 	texture = malloc(sizeof(t_texture));
+	texture->north_tex = NULL;
+	texture->south_tex = NULL;
+	texture->west_tex = NULL;
+	texture->east_tex = NULL;
+	 
 	texture->north_path = NULL;
 	texture->south_path = NULL;
 	texture->west_path = NULL;
 	texture->east_path = NULL;
+	texture->floor = NULL;
+	texture->ceiling = NULL;
 	texture->found_no = 0;
 	texture->found_so = 0;
 	texture->found_we = 0;
 	texture->found_ea = 0;
+	texture->found_f = 0;
+	texture->found_c = 0;
 	return (texture);
 }
 
@@ -114,21 +140,6 @@ t_color	*init_color_struct(void)
 	return (color);
 }
 
-t_img	*init_img_struct(void)
-{
-	t_img *img;
-
-	img = malloc(sizeof(t_img));
-	img->img = NULL;
-	img->addr = NULL;
-	img->bpp = 0;
-	img->line_length = 0;
-	img->endian = 0;
-	img->img_width = 55;
-	img->img_height = 55;
-	return (img);
-}
-
 void	leaks(void)
 {
 	system("leaks cub3D");
@@ -141,10 +152,20 @@ int	main(int ac, char **av)
 	leaks();
 	atexit(leaks);
 	map = init_map_struct();
+	if (!map)
+		error_exit("map struct init failed.");
 	map->win = init_window_struct();
+	if (!map->win)
+		error_exit("window struct init failed.");
 	map->texture = init_texture_struct();
+	if (!map->texture)
+		error_exit("texture struct init failed.");
 	map->color = init_color_struct();
+	if (!map->color)
+		error_exit("color struct init failed.");
 	map->img = init_img_struct();
+	if (!map->img)
+		error_exit("img struct init failed.");
 	parsing(ac, av, map);
 
 	map->mlx = mlx_init();
@@ -154,19 +175,27 @@ int	main(int ac, char **av)
 	if (!map->mlx_win)
 		error_exit("mlx_new_window() failed\n");
 
-	// map->img->mlx_win = mlx_new_image(map->img->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	// map->img->mlx_win = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	// mlx_put_image_to_window(map->img->mlx, map->img->mlx_win, map->img->img, 0, 0);
-	// map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
-	// map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 	// printf("hi\n");
 	load_textures(map);
 	// mlx_loop_hook(map->mlx, start_drawing, map);
 	start_drawing(map);
 	// mlx_put_image_to_window(map->mlx, map->win, map->img->img, 0, 0);
-	// mlx_destroy_image(map->mlx, map->img->img);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
+
+	if (map->texture->north_tex != NULL)
+		free(map->texture->north_tex);
+	if (map->texture->south_tex != NULL)
+		free(map->texture->south_tex);
+	if (map->texture->west_tex != NULL)
+		free(map->texture->west_tex);
+	if (map->texture->east_tex != NULL)
+		free(map->texture->east_tex);
 
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
@@ -181,14 +210,6 @@ int	main(int ac, char **av)
 	if (map->texture->ceiling != NULL)
 		ft_free((void **)map->texture->ceiling);
 
-	if (map->texture->north_tex != NULL)
-		free(map->texture->north_tex);
-	if (map->texture->south_tex != NULL)
-		free(map->texture->south_tex);
-	if (map->texture->west_tex != NULL)
-		free(map->texture->west_tex);
-	if (map->texture->east_tex != NULL)
-		free(map->texture->east_tex);
 	
 	free(map->texture);
 	free(map->img);
