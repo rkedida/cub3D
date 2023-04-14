@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 20:42:43 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/13 20:52:43 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,9 @@ int	main(int ac, char **av)
 
 	leaks();
 	atexit(leaks);
+	// (void)ac;
+	// (void)av;
+	// ft_memset(&map, 0, sizeof(map));
 	map = init_map_struct();
 	map->win = init_window_struct();
 	map->texture = init_texture_struct();
@@ -175,11 +178,12 @@ int	main(int ac, char **av)
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 	load_textures(map);
 
-	// mlx_loop_hook(map->mlx, start_drawing, map);
 	start_drawing(map);
+	// mlx_loop_hook(map->mlx, start_drawing, map);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
+
 
 	if (map->texture->north_tex != NULL)
 		free(map->texture->north_tex);
@@ -189,6 +193,7 @@ int	main(int ac, char **av)
 		free(map->texture->west_tex);
 	if (map->texture->east_tex != NULL)
 		free(map->texture->east_tex);
+	// mlx_destroy_image(map->mlx, map->img->img);
 
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);

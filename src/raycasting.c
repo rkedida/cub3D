@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 20:41:23 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/13 20:47:17 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	start_drawing(t_data *map)
 {
 	mlx_clear_window(map->mlx, map->mlx_win);
 	raycaster(map, map->win);
+	leaks();
 	draw_buffer(map, map->win->buffer);
 	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
 	{
@@ -147,9 +148,9 @@ int	raycaster(t_data *map, t_window *win)
 	for (int y = 0; y < MAX_WINDOW_HEIGHT; y++)
 	{
 		if (y < win->drawstart)
-			win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 255);
-		else if (y > win->drawend)
-			win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 255);
+			win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
+		else
+			win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
 	}
 
 		// calculate value of wall_x

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 20:42:03 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/13 20:45:51 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,14 @@ void	load_texture(t_data *map, char *path, t_img **img)
 
 int	cleanup_and_exit(t_data *map)
 {
-	mlx_destroy_image(map->mlx, map->img->img);
-	mlx_destroy_window(map->mlx, map->mlx_win);
-
+	if (map->texture->north_tex != NULL)
+		free(map->texture->north_tex);
+	if (map->texture->south_tex != NULL)
+		free(map->texture->south_tex);
+	if (map->texture->west_tex != NULL)
+		free(map->texture->west_tex);
+	if (map->texture->east_tex != NULL)
+		free(map->texture->east_tex);
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
 	if (map->texture->south_path != NULL)
@@ -113,19 +118,12 @@ int	cleanup_and_exit(t_data *map)
 	if (map->texture->ceiling != NULL)
 		ft_free((void **)map->texture->ceiling);
 
-	if (map->texture->north_tex != NULL)
-		free(map->texture->north_tex);
-	if (map->texture->south_tex != NULL)
-		free(map->texture->south_tex);
-	if (map->texture->west_tex != NULL)
-		free(map->texture->west_tex);
-	if (map->texture->east_tex != NULL)
-		free(map->texture->east_tex);
 
 	free(map->texture);
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
+	mlx_destroy_window(map->mlx, map->mlx_win);
 	free(map);
 	exit(0);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 19:25:18 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/13 20:48:50 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,15 @@
 
 typedef struct s_data
 {
-	void	*mlx;
-	void	*mlx_win;
-	// input Parsing
+	void				*mlx;
+	void				*mlx_win;
 	char				*map_path;
 	char				*check;
 	int					result;
-
-	// map Parsing
 	int					fd;
 	int					read_bytes;
-	// char				*line;
 	char				**map;
 	char				**maps;
-
-
 	struct s_color		*color;
 	struct s_window		*win;
 	struct s_img		*img;
@@ -59,16 +53,16 @@ typedef struct s_data
 
 typedef struct s_window
 {
-	int		map_x;
-	int		map_y;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	camera_x;
-	double	raydir_x;
+	int					map_x;
+	int					map_y;
+	double				pos_x;
+	double				pos_y;
+	double				dir_x;
+	double				dir_y;
+	double				plane_x;
+	double				plane_y;
+	double				camera_x;
+	double				raydir_x;
 	double	raydir_y;
 	double	sidedist_x;
 	double	sidedist_y;
@@ -92,56 +86,55 @@ typedef struct s_window
 	double	frame_time;
 	double	move_speed;
 	double	rot_speed;
-	u_int32_t	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	unsigned int	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 }				t_window;
 
 typedef struct s_img
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
-	int		img_width;
-	int		img_height;
+	void					*img;
+	char					*addr;
+	int						bpp;
+	int						line_length;
+	int						endian;
+	int						img_width;
+	int						img_height;
 }			t_img;
 
 typedef struct s_texture
 {
-	t_img				*north_tex;
-	t_img				*south_tex;
-	t_img				*west_tex;
-	t_img				*east_tex;
-	char				**north_path;
-	char				**south_path;
-	char				**west_path;
-	char				**east_path;
-	char				**floor;
-	char				**ceiling;
+	t_img					*north_tex;
+	t_img					*south_tex;
+	t_img					*west_tex;
+	t_img					*east_tex;
+	char					**north_path;
+	char					**south_path;
+	char					**west_path;
+	char					**east_path;
+	char					**floor;
+	char					**ceiling;
 
-	int					found_no;
-	int					found_so;
-	int					found_we;
-	int					found_ea;
-	int					found_f;
-	int					found_c;
+	int						found_no;
+	int						found_so;
+	int						found_we;
+	int						found_ea;
+	int						found_f;
+	int						found_c;
 }					t_texture;
 
 typedef struct s_color
 {
-	int				floor_r;
-	int				floor_g;
-	int				floor_b;
-	int				ceiling_r;
-	int				ceiling_g;
-	int				ceiling_b;
-	u_int32_t		color;
+	int						floor_r;
+	int						floor_g;
+	int						floor_b;
+	int						ceiling_r;
+	int						ceiling_g;
+	int						ceiling_b;
+	unsigned int			color;
 }					t_color;
 
 
 void			move_forward(t_data *map, t_window *win);
 void			move_backward(t_data *map, t_window *win);
-
 int				get_tex_pixel(t_img *texture, int x, int y);
 bool			mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int				raycaster(t_data *map, t_window *win);
@@ -188,9 +181,10 @@ void			parsing(int ac, char **av, t_data *map);
 // main.c
 t_data			*init_map_struct(void);
 t_window		*init_window_struct(void);
+t_img			*init_img_struct(void);
 t_texture		*init_texture_struct(void);
 t_color			*init_color_struct(void);
-t_img			*init_img_struct(void);
+void			leaks(void);
 
 // error.c
 void			error_exit(char *message);
