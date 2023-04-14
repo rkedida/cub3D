@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/13 20:48:50 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/14 13:14:34 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-# define MAX_WINDOW_WIDTH 1920
-# define MAX_WINDOW_HEIGHT 1080
+# define MAX_WINDOW_WIDTH 5120
+# define MAX_WINDOW_HEIGHT 2880
 // # define RED 255,120,0
 
 
@@ -63,30 +63,30 @@ typedef struct s_window
 	double				plane_y;
 	double				camera_x;
 	double				raydir_x;
-	double	raydir_y;
-	double	sidedist_x;
-	double	sidedist_y;
-	double	deltadist_x;
-	double	deltadist_y;
-	double	perpwalldist;
-	int		step_x;
-	int		step_y;
-	int		hit;
-	int		side;
-	int		lineheight;
-	int		drawstart;
-	int		drawend;
-	double	wall_x;
-	int		tex_x;
-	int		tex_y;
-	double	step;
-	double	tex_pos;
-	double	time;
-	double	old_time;
-	double	frame_time;
-	double	move_speed;
-	double	rot_speed;
-	unsigned int	buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	double				raydir_y;
+	double				sidedist_x;
+	double				sidedist_y;
+	double				deltadist_x;
+	double				deltadist_y;
+	double				perpwalldist;
+	int					step_x;
+	int					step_y;
+	int					hit;
+	int					side;
+	int					lineheight;
+	int					drawstart;
+	int					drawend;
+	double				wall_x;
+	int					tex_x;
+	int					tex_y;
+	double				step;
+	double				tex_pos;
+	double				time;
+	double				old_time;
+	double				frame_time;
+	double				move_speed;
+	double				rot_speed;
+	unsigned int		buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
 }				t_window;
 
 typedef struct s_img
@@ -132,7 +132,6 @@ typedef struct s_color
 	unsigned int			color;
 }					t_color;
 
-
 void			move_forward(t_data *map, t_window *win);
 void			move_backward(t_data *map, t_window *win);
 int				get_tex_pixel(t_img *texture, int x, int y);
@@ -142,7 +141,6 @@ void			draw_buffer(t_data *map, \
 						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void			move(t_data *map);
 int				start_drawing(t_data *map);
-
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);
@@ -191,9 +189,6 @@ void			error_exit(char *message);
 void			*ft_malloc(void *str, size_t size);
 void			ft_free(void **str);
 
-
-
-
 // dfs_search.c
 void			dfs(t_data *Map, int row, int col, bool **visited);
 
@@ -206,7 +201,7 @@ void			move_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);
-void				load_texture(t_data *map, char *path, t_img **img);
+int				load_texture(t_data *map, char *path, t_img *img);
 int				load_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 

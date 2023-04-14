@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/13 20:52:43 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/14 13:39:40 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ int	main(int ac, char **av)
 {
 	t_data	*map;
 
-	leaks();
-	atexit(leaks);
+	// leaks();
+	// atexit(leaks);
 	// (void)ac;
 	// (void)av;
 	// ft_memset(&map, 0, sizeof(map));
