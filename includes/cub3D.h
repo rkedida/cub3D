@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 13:14:34 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/17 23:15:58 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void			draw_buffer(t_data *map, \
 						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void			move(t_data *map);
 int				start_drawing(t_data *map);
+void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);
@@ -196,8 +197,8 @@ void			dfs(t_data *Map, int row, int col, bool **visited);
 int				handle_keypress(int keycode, t_data *map);
 void			move_up(t_data *Map);
 void			move_down(t_data *Map);
-void			move_left(t_window *win);
-void			move_right(t_window *win);
+void			move_left(t_window *win, t_data *map);
+void			move_right(t_window *win, t_data *map);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 11:14:37 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/17 23:17:53 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	load_texture(t_data *map, char *path, t_img *img)
 int	load_textures(t_data *map)
 {
 	// if (!map->texture)
-		map->texture->north_tex = malloc(sizeof(t_img));
+	map->texture->north_tex = malloc(sizeof(t_img));
 	ft_memset(map->texture->north_tex, 0, sizeof(t_img));
 	if (!map->texture->north_tex)
 		error_exit("Error allocating memory for north texture.");
@@ -123,7 +123,8 @@ int	cleanup_and_exit(t_data *map)
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
-	mlx_destroy_window(map->mlx, map->mlx_win);
+	mlx_destroy_image(map->mlx, map->img);
+	// mlx_destroy_window(map->mlx, map->mlx_win);
 	free(map);
 	exit(0);
 	return (0);

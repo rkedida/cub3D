@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 13:39:40 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/17 00:03:54 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ int	main(int ac, char **av)
 {
 	t_data	*map;
 
-	// leaks();
-	// atexit(leaks);
+	leaks();
+	atexit(leaks);
 	// (void)ac;
 	// (void)av;
 	// ft_memset(&map, 0, sizeof(map));
@@ -178,10 +178,11 @@ int	main(int ac, char **av)
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
 	load_textures(map);
 
+	printf("hi\n");
 	start_drawing(map);
 	// mlx_loop_hook(map->mlx, start_drawing, map);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
-	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
+	// mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
 
 
@@ -209,7 +210,7 @@ int	main(int ac, char **av)
 		ft_free((void **)map->texture->ceiling);
 
 	free(map->texture);
-	free(map->img);
+	// free(map->img);
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);

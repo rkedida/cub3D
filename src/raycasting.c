@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 21:07:15 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/18 22:46:17 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ int	RGB(int r, int g, int b, int a)
 int	start_drawing(t_data *map)
 {
 	mlx_clear_window(map->mlx, map->mlx_win);
+	// mlx_destroy_image(map->mlx, map->img->img);
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp,
+		&map->img->line_length, &map->img->endian);
 	raycaster(map, map->win);
+	printf("hi2\n");
 	// leaks();
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	draw_buffer(map, map->win->buffer);
@@ -30,9 +35,10 @@ int	start_drawing(t_data *map)
 	{
 		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
 		{
-			map->win->buffer[i][j] = '\0';
+			map->win->buffer[i][j] = 0;
 		}
 	}
+	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	return (0);
 }
 
@@ -350,7 +356,7 @@ void	calculate_x_on_texture(t_window *win, t_data *map)
 	win->step = 1.0 * map->img->img_height / win->lineheight;
 
 	// starting texture coordinate
-	win->tex_pos = (win->drawstart - 100 - MAX_WINDOW_HEIGHT / 4 + win->lineheight / 4) * win->step;
+	win->tex_pos = (win->drawstart - MAX_WINDOW_HEIGHT / 2 + win->lineheight / 2) * win->step;
 }
 
 void	draw_floor_ceiling(t_window *win, t_data *map, int x)
@@ -408,14 +414,14 @@ int	raycaster(t_data *map, t_window *win)
 		x++;
 	}
 	// timinig for input and FPS counter
-	win->old_time = win->time;
-	win->time = clock();
-	win->frame_time = (win->time - win->old_time) / 1000.0;
+	// win->old_time = win->time;
+	// win->time = clock();
+	// win->frame_time = (win->time - win->old_time) / 1000.0;
 	// printf("%f\n", 1.0 / win->frame_time); // FPS counter
 
 	// // speed modifiers
 	// win->move_speed = win->frame_time * 5;
-	win->rot_speed = win->frame_time * 3;
+	win->rot_speed = 0.1;
 	return (0);
 }
 
@@ -423,6 +429,20 @@ int	raycaster(t_data *map, t_window *win)
 
 
 //-------------------------------TEST--------------------------------------------
+
+void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color)
+{
+	// int				color;
+	char			*dst;
+
+	// color = 0;
+	// dst = NULL;
+
+	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
+	// dst = &texture->addr[y * texture->line_length + x * (texture->bpp / 8)];
+	*(unsigned int*)dst = color;
+	// return (color);
+}
 
 void	draw_buffer(t_data *map, \
 					uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
@@ -436,11 +456,13 @@ void	draw_buffer(t_data *map, \
 		x = 0;
 		while (x < MAX_WINDOW_WIDTH)
 		{
-			mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+			// mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
+			ft_mlx_pixel_put(map->img, x, y, buffer[y][x]);
 			x++;
 		}
 		y++;
 	}
+	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 }
 
 int	get_tex_pixel(t_img *texture, int x, int y)
@@ -451,8 +473,8 @@ int	get_tex_pixel(t_img *texture, int x, int y)
 	color = 0;
 	dst = NULL;
 
-	// dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	dst = &texture->addr[y * texture->line_length + x * (texture->bpp / 8)];
+	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
+	// dst = &texture->addr[y * texture->line_length + x * (texture->bpp / 8)];
 	color = *(unsigned int *)dst;
 	return (color);
 }
