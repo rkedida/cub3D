@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/18 22:46:17 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/19 20:52:19 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ int	RGB(int r, int g, int b, int a)
 
 int	start_drawing(t_data *map)
 {
-	mlx_clear_window(map->mlx, map->mlx_win);
-	// mlx_destroy_image(map->mlx, map->img->img);
+	// mlx_clear_window(map->mlx, map->mlx_win);
+	// load_textures(map);
+	if (map->img->img)
+		mlx_destroy_image(map->mlx, map->img->img);
 	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp,
 		&map->img->line_length, &map->img->endian);
+//	printf("hi2\n");
 	raycaster(map, map->win);
-	printf("hi2\n");
 	// leaks();
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	draw_buffer(map, map->win->buffer);
@@ -39,6 +41,7 @@ int	start_drawing(t_data *map)
 		}
 	}
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
+	//mlx_destroy_image(map->mlx, map->img->img);
 	return (0);
 }
 
@@ -298,40 +301,29 @@ void	calculate_wall_distance(t_window *win)
 void	calculate_wall_height(t_window *win)
 {
 	// Calculate height of line to draw on screen
-	win->lineheight = (int)(MAX_WINDOW_HEIGHT * 0.66 / win->perpwalldist);
+	win->lineheight = (int)(MAX_WINDOW_HEIGHT * 0.6 / win->perpwalldist);
 
 	// Calculate lowest and highest pixel to fill in current stripe
-	win->drawstart = -win->lineheight / 2 + MAX_WINDOW_HEIGHT / 4;
+	//printf("lineheight = %d, MAX_WINDOW_HEIGHT = %d\n", win->lineheight, MAX_WINDOW_HEIGHT);
+	win->drawstart = -win->lineheight / 2 + MAX_WINDOW_HEIGHT / 2;
 	if (win->drawstart < 0)
 		win->drawstart = 0;
-	win->drawend = win->lineheight / 2 + MAX_WINDOW_HEIGHT / 4;
+	win->drawend = win->lineheight / 2 + MAX_WINDOW_HEIGHT / 2;
 	if (win->drawend >= MAX_WINDOW_HEIGHT)
 		win->drawend = MAX_WINDOW_HEIGHT - 1;
 }
 
 void	get_texture_color(t_window *win, t_data *map)
 {
-	// init img and get color
 	if (win->side == 0 && win->raydir_x > 0)
-	{
-		map->img = map->texture->north_tex;
-		map->color->color = get_tex_pixel(map->texture->north_tex, win->tex_x, win->tex_y);
-	}
+		map->texture_img = map->texture->north_tex;
 	if (win->side == 0 && win->raydir_x < 0)
-	{
-		map->img = map->texture->south_tex;
-		map->color->color = get_tex_pixel(map->texture->south_tex, win->tex_x, win->tex_y);
-	}
+		map->texture_img = map->texture->south_tex;
 	if (win->side == 1 && win->raydir_y < 0)
-	{
-		map->img = map->texture->west_tex;
-		map->color->color = get_tex_pixel(map->texture->west_tex, win->tex_x, win->tex_y);
-	}
+		map->texture_img = map->texture->west_tex;
 	if (win->side == 1 && win->raydir_y > 0)
-	{
-		map->img = map->texture->east_tex ;
-		map->color->color = get_tex_pixel(map->texture->east_tex, win->tex_x, win->tex_y);
-	}
+		map->texture_img = map->texture->east_tex ;
+
 }
 
 void	calculate_wall_x(t_window *win)
@@ -347,13 +339,14 @@ void	calculate_wall_x(t_window *win)
 void	calculate_x_on_texture(t_window *win, t_data *map)
 {
 	// x coordinate on the texture
-	win->tex_x = (int)(win->wall_x * (double)(map->img->img_width));
+	(void)map;
+	win->tex_x = (int)(win->wall_x * (double)(map->texture_img->img_width));
 	if (win->side == 0 && win->raydir_x > 0)
-		win->tex_x = map->img->img_width - win->tex_x - 1;
+		win->tex_x = map->texture_img->img_width - win->tex_x - 1;
 	if (win->side == 1 && win->raydir_y < 0)
-		win->tex_x = map->img->img_width - win->tex_x - 1;
+		win->tex_x = map->texture_img->img_width - win->tex_x - 1;
 	// how much to increase the texture coordinate per screen pixel
-	win->step = 1.0 * map->img->img_height / win->lineheight;
+	win->step = 1.0 * map->texture_img->img_height / win->lineheight;
 
 	// starting texture coordinate
 	win->tex_pos = (win->drawstart - MAX_WINDOW_HEIGHT / 2 + win->lineheight / 2) * win->step;
@@ -365,13 +358,16 @@ void	draw_floor_ceiling(t_window *win, t_data *map, int x)
 
 	y = 0;
 	// Set floor and ceiling colors in buffer
+	while (y < win->drawstart)
+	{
+		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
+		y++;
+	}
+	y = win->drawend;
 	while (y < MAX_WINDOW_HEIGHT)
 	{
-		if (y < win->drawend)
-			win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
-		else
-			win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
-			y++;
+		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
+		y++;
 	}
 }
 
@@ -383,9 +379,10 @@ void	draw_vertical_line(t_window *win, t_data *map, int x)
 	while (y < win->drawend)
 	{
 		// cast the texture coordinate to integer, and mask with (tex_height - 1) in case of overflow
-		win->tex_y = (int)win->tex_pos & (map->img->img_height - 1);
+		win->tex_y = (int)win->tex_pos & (map->texture_img->img_height - 1);
+		//printf("tex_x : %d, tex_y : %d\n", win->tex_x, win->tex_y);
 		win->tex_pos += win->step;
-		map->color->color = get_tex_pixel(map->img, win->tex_x, win->tex_y);
+		map->color->color = get_tex_pixel(map->texture_img, win->tex_x, win->tex_y);
 		if (win->side == 1)
 			map->color->color = (map->color->color >> 1) & 8355711;
 		win->buffer[y][x]= map->color->color;
@@ -406,9 +403,10 @@ int	raycaster(t_data *map, t_window *win)
 		perform_dda(win, map);
 		calculate_wall_distance(win);
 		calculate_wall_height(win);
-		get_texture_color(win, map);
 		calculate_wall_x(win);
+		get_texture_color(win, map);
 		calculate_x_on_texture(win, map);
+	//printf("raycaster\n");
 		draw_floor_ceiling(win, map, x);
 		draw_vertical_line(win, map, x);
 		x++;
@@ -421,6 +419,7 @@ int	raycaster(t_data *map, t_window *win)
 
 	// // speed modifiers
 	// win->move_speed = win->frame_time * 5;
+	// win->rot_speed = win->frame_time * 3;
 	win->rot_speed = 0.1;
 	return (0);
 }
@@ -432,16 +431,11 @@ int	raycaster(t_data *map, t_window *win)
 
 void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color)
 {
-	// int				color;
-	char			*dst;
+	char	*dst;
 
-	// color = 0;
-	// dst = NULL;
 
 	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	// dst = &texture->addr[y * texture->line_length + x * (texture->bpp / 8)];
-	*(unsigned int*)dst = color;
-	// return (color);
+	*(unsigned int *)dst = color;
 }
 
 void	draw_buffer(t_data *map, \
@@ -456,7 +450,6 @@ void	draw_buffer(t_data *map, \
 		x = 0;
 		while (x < MAX_WINDOW_WIDTH)
 		{
-			// mlx_pixel_put(map->mlx, map->mlx_win, x, y, buffer[y][x]);
 			ft_mlx_pixel_put(map->img, x, y, buffer[y][x]);
 			x++;
 		}
@@ -474,7 +467,6 @@ int	get_tex_pixel(t_img *texture, int x, int y)
 	dst = NULL;
 
 	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	// dst = &texture->addr[y * texture->line_length + x * (texture->bpp / 8)];
 	color = *(unsigned int *)dst;
 	return (color);
 }

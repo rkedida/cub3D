@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/17 23:15:58 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/19 21:03:54 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-# define MAX_WINDOW_WIDTH 5120
-# define MAX_WINDOW_HEIGHT 2880
+# define MAX_WINDOW_WIDTH 2560
+# define MAX_WINDOW_HEIGHT 1440
 // # define RED 255,120,0
 
 
@@ -47,6 +47,7 @@ typedef struct s_data
 	struct s_color		*color;
 	struct s_window		*win;
 	struct s_img		*img;
+	struct s_img		*texture_img;
 	struct s_texture	*texture;
 
 }				t_data;
@@ -199,6 +200,8 @@ void			move_up(t_data *Map);
 void			move_down(t_data *Map);
 void			move_left(t_window *win, t_data *map);
 void			move_right(t_window *win, t_data *map);
+void	turn_left(t_window *win);
+void	turn_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);

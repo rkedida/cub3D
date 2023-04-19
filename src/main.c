@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/17 00:03:54 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/19 20:59:28 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,16 +173,16 @@ int	main(int ac, char **av)
 	map->mlx_win = mlx_new_window(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT, "cub3D");
 	if (!map->mlx_win)
 		error_exit("mlx_new_window() failed\n");
-
 	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
-	load_textures(map);
 
-	printf("hi\n");
-	start_drawing(map);
-	// mlx_loop_hook(map->mlx, start_drawing, map);
+
+	load_textures(map);
+	// start_drawing(map);
+	// printf("hi\n");
+	mlx_loop_hook(map->mlx, &start_drawing, map);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
-	// mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
+	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
 
 
