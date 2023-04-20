@@ -27,8 +27,8 @@ Each element (except the map) firsts information is the type identifier (compose
 
 ## Contributors
 This project was completed by:
-Robel Kedida @robelkedida
-Shettima Ali @Shetteemah
+</br>Robel Kedida [@robelkedida](https://github.com/rkedida)
+</br>Shettima Ali [@Shetteemah](https://github.com/shetteemah)
 
-Built With
-
+### Built With:
+[![C](https://skillicons.dev/icons?i=c)](https://skillicons.dev)
