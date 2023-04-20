@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 00:51:14 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 01:39:04 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,49 +87,7 @@ void	draw_vertical_line(t_window *win, t_data *map, int x)
 				win->tex_y);
 		if (win->side == 1)
 			map->color->color = (map->color->color >> 1) & 8355711;
-		win->buffer[y][x]= map->color->color;
+		win->buffer[y][x] = map->color->color;
 		y++;
 	}
-}
-
-//-------------------------------TEST--------------------------------------
-
-void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	draw_buffer(t_data *map,
-	uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH])
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < MAX_WINDOW_HEIGHT)
-	{
-		x = 0;
-		while (x < MAX_WINDOW_WIDTH)
-		{
-			ft_mlx_pixel_put(map->img, x, y, buffer[y][x]);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
-}
-
-int	get_tex_pixel(t_img *texture, int x, int y)
-{
-	int				color;
-	char			*dst;
-
-	color = 0;
-	dst = NULL;
-	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	color = *(unsigned int *)dst;
-	return (color);
 }

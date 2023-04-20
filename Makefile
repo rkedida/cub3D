@@ -6,7 +6,7 @@
 #    By: sheali <sheali@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/04/21 00:23:47 by sheali           ###   ########.fr        #
+#    Updated: 2023/04/21 01:32:38 by sheali           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRC				=	$(SRC_DIR)/main.c\
 					$(SRC_DIR)/validate_map.c\
 					$(SRC_DIR)/dfs_search.c\
 					$(SRC_DIR)/error.c\
+					$(SRC_DIR)/moves.c\
+					$(SRC_DIR)/init.c\
 					$(SRC_DIR)/surrounded_walls.c\
 					$(SRC_DIR)/textures.c\
 					$(SRC_DIR)/key_hook_manager.c\

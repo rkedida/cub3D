@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 01:05:38 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 01:34:01 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,10 +209,7 @@ void			dfs(t_data *Map, int row, int col, bool **visited);
 
 // key_hook_manager.c
 int				handle_keypress(int keycode, t_data *map);
-void			move_up(t_data *Map);
-void			move_down(t_data *Map);
-void			move_left(t_window *win, t_data *map);
-void			move_right(t_window *win, t_data *map);
+void			rotate_vector(double *x, double *y, double theta);
 void			turn_left(t_window *win);
 void			turn_right(t_window *win);
 
@@ -255,5 +252,25 @@ void			calculate_wall_x(t_window *win);
 void			calculate_x_on_texture(t_window *win, t_data *map);
 void			draw_floor_ceiling(t_window *win, t_data *map, int x);
 void			draw_vertical_line(t_window *win, t_data *map, int x);
+
+// iniit.c
+t_data			*init_map_struct(void);
+t_window		*init_window_struct(void);
+t_img			*init_img_struct(void);
+t_texture		*init_texture_struct(void);
+t_color			*init_color_struct(void);
+
+// dfs_search.c
+void			leaks(void);
+void			ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
+void			draw_buffer(t_data *map, uint32_t buffer[MAX_WINDOW_HEIGHT]
+				[MAX_WINDOW_WIDTH]);
+int				get_tex_pixel(t_img *texture, int x, int y);
+
+// moves.c
+void			move_forward(t_data *map, t_window *win);
+void			move_backward(t_data *map, t_window *win);
+void			move_left(t_window *win, t_data *map);
+void			move_right(t_window *win, t_data *map);
 
 #endif

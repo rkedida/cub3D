@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 01:12:34 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 01:37:38 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ void	validate_config_info(t_data *map, t_texture *texture)
 		&& texture->west_path == NULL && texture->east_path == NULL \
 		&& texture->floor == NULL && texture->ceiling == NULL)
 		map->maps = map->map;
-	else if (texture->found_no != 1 || texture->found_so != 1 || texture->found_we != 1 \
-		|| texture->found_ea != 1 || texture->found_f != 1 || texture->found_c != 1)
+	else if (texture->found_no != 1 || texture->found_so != 1
+		|| texture->found_we != 1 || texture->found_ea != 1
+		|| texture->found_f != 1 || texture->found_c != 1)
 		error_exit("Compass Invalid Path");
 	else
 		map->maps = map->map + 6;
