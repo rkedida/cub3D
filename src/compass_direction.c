@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compass_direction.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/07 17:08:44 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 17:29:16 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	check_we(int i, t_data *map, t_texture *texture)
 		texture->found_we++;
 		if (!texture->west_path)
 			texture->west_path = ft_split(map->map[i], ' ');
-		if (texture->west_path[0] && texture->west_path[1] && texture->west_path[2] == NULL)
+		if (texture->west_path[0] && texture->west_path[1]
+			&& texture->west_path[2] == NULL)
 		{
 			map->result = access(texture->west_path[1], F_OK | R_OK);
 			if (map->result != 0)
@@ -75,7 +76,8 @@ void	check_ea(int i, t_data *map, t_texture *texture)
 		texture->found_ea++;
 		if (!texture->east_path)
 			texture->east_path = ft_split(map->map[i], ' ');
-		if (texture->east_path[0] && texture->east_path[1] && texture->east_path[2] == NULL)
+		if (texture->east_path[0] && texture->east_path[1]
+			&& texture->east_path[2] == NULL)
 		{
 			map->result = access(texture->east_path[1], F_OK | R_OK);
 			if (map->result != 0)

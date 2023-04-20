@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/20 17:13:34 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/20 19:31:51 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,15 @@ t_data	*init_map_struct(void)
 		error_exit("map struct init failed.");
 	map->mlx = NULL;
 	map->mlx_win = NULL;
-
 	// input parsing
 	map->map_path = NULL;
 	map->check = NULL;
 	map->result = 0;
-
 	// open and read
 	map->fd = 0;
 	map->read_bytes = 0;
-
 	map->map = NULL;
 	map->maps = NULL;
-
 	map->color = NULL;
 	map->win = NULL;
 	map->img = NULL;
@@ -121,7 +117,6 @@ t_texture	*init_texture_struct(void)
 	texture->south_tex = NULL;
 	texture->west_tex = NULL;
 	texture->east_tex = NULL;
-
 	texture->north_path = NULL;
 	texture->south_path = NULL;
 	texture->west_path = NULL;
@@ -170,7 +165,6 @@ void	check_n_free(t_data *map)
 		free(map->texture->west_tex);
 	if (map->texture->east_tex != NULL)
 		free(map->texture->east_tex);
-	// mlx_destroy_image(map->mlx, map->img->img);
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
 	if (map->texture->south_path != NULL)
@@ -196,23 +190,21 @@ void	initialize(int ac, char **av, t_data *map)
 	map->img = init_img_struct();
 	parsing(ac, av, map);
 	map->mlx = mlx_init();
-	if (!map->mlx)
-		error_exit("mlx_init() failed\n");
-	map->mlx_win = mlx_new_window(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT, "cub3D");
-	if (!map->mlx_win)
-		error_exit("mlx_new_window() failed\n");
-	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
-	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	error_prints(map->mlx, MLX_FAILED_INIT);
+	map->mlx_win = mlx_new_window(map->mlx, MAX_WINDOW_WIDTH,
+			MAX_WINDOW_HEIGHT, "cub3D");
+	error_prints(map->mlx_win, MLX_FAILED_NEW_WINDW);
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH,
+			MAX_WINDOW_HEIGHT);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp,
+			&map->img->line_length, &map->img->endian);
 	load_textures(map);
 	mlx_loop_hook(map->mlx, &start_drawing, map);
 	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
-	check_n_free(map);
-	free(map->texture);
-	free(map->win);
-	free(map->color);
-	ft_free((void **)map->map);
+	free_map(map);
+	free(map->img);
 	free(map);
 }
 
@@ -225,14 +217,6 @@ int	main(int ac, char **av)
 	atexit(leaks);
 	initialize(ac, av, map);
 	printf("here initialize\n");
-	// start_drawing(map);
-	// printf("hi\n");
 	check_n_free(map);
-	//free(map->texture);
-	// free(map->img);
-	//free(map->win);
-	//free(map->color);
-	//ft_free((void **)map->map);
-	//free(map);
 	return (0);
 }

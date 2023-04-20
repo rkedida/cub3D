@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 04:03:03 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 19:33:23 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 bool	check_flags(t_texture *texture)
 {
-	if (!texture->found_no && !texture->found_so && !texture->found_we && !texture->found_ea)
+	if (!texture->found_no && !texture->found_so && !texture->found_we
+		&& !texture->found_ea)
 		return (true);
 	// else
 	// 	error_exit("Only one Player Direction allowed.");
@@ -23,37 +24,37 @@ bool	check_flags(t_texture *texture)
 
 void	set_player_pos(t_data *map, int i, int j)
 {
-		map->win->pos_y = i;
-		map->win->pos_x = j;
+	map->win->pos_y = i;
+	map->win->pos_x = j;
 
-		if (map->maps[i][j] == 'N')
-		{
-			map->win->dir_x = 0;
-			map->win->dir_y = -1;
-			map->win->plane_x = 1;
-			map->win->plane_y = 0;
-		}
-		if (map->maps[i][j] == 'S')
-		{
-			map->win->dir_x = 0;
-			map->win->dir_y = 1;
-			map->win->plane_x = -1;
-			map->win->plane_y = 0;
-		}
-		if (map->maps[i][j] == 'W')
-		{
-			map->win->dir_x = -1;
-			map->win->dir_y = 0;
-			map->win->plane_x = 0;
-			map->win->plane_y = 1;
-		}
-		if (map->maps[i][j] == 'E')
-		{
-			map->win->dir_x = 1;
-			map->win->dir_y = 0;
-			map->win->plane_x = 0;
-			map->win->plane_y = -1;
-		}
+	if (map->maps[i][j] == 'N')
+	{
+		map->win->dir_x = 0;
+		map->win->dir_y = -1;
+		map->win->plane_x = 1;
+		map->win->plane_y = 0;
+	}
+	if (map->maps[i][j] == 'S')
+	{
+		map->win->dir_x = 0;
+		map->win->dir_y = 1;
+		map->win->plane_x = -1;
+		map->win->plane_y = 0;
+	}
+	if (map->maps[i][j] == 'W')
+	{
+		map->win->dir_x = -1;
+		map->win->dir_y = 0;
+		map->win->plane_x = 0;
+		map->win->plane_y = 1;
+	}
+	if (map->maps[i][j] == 'E')
+	{
+		map->win->dir_x = 1;
+		map->win->dir_y = 0;
+		map->win->plane_x = 0;
+		map->win->plane_y = -1;
+	}
 }
 
 void	track_map_data(t_data *map, t_texture *texture, int i, int j)

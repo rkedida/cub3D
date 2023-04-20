@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/19 21:03:54 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 18:36:56 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@
 # define MAX_WINDOW_HEIGHT 1440
 // # define RED 255,120,0
 
+# define A "mlx_init() failed\n"
+# define B "mlx_new_window() failed\n"
+
+typedef enum e_errors
+{
+	MLX_FAILED_INIT		= 1,
+	MLX_FAILED_NEW_WINDW = 2
+}				t_errors;
 
 typedef struct s_data
 {
@@ -142,7 +150,7 @@ void			draw_buffer(t_data *map, \
 						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
 void			move(t_data *map);
 int				start_drawing(t_data *map);
-void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
+void			ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);
@@ -161,7 +169,8 @@ void			check_no(int i, t_data *map, t_texture *texture);
 void			check_so(int i, t_data *map, t_texture *texture);
 void			check_we(int i, t_data *map, t_texture *texture);
 void			check_ea(int i, t_data *map, t_texture *texture);
-void			check_compass_direction_in_file(int i, t_data *map, t_texture *texture);
+void			check_compass_direction_in_file(int i, t_data *map,
+					t_texture *texture);
 
 // parsing_config_info.c
 void			check_floor_rgbs(int i, t_data *map, t_texture *texture);
@@ -190,6 +199,8 @@ void			leaks(void);
 void			error_exit(char *message);
 void			*ft_malloc(void *str, size_t size);
 void			ft_free(void **str);
+void			error_prints(void *mlx, int num);
+void			free_map(t_data *map);
 
 // dfs_search.c
 void			dfs(t_data *Map, int row, int col, bool **visited);
@@ -200,8 +211,8 @@ void			move_up(t_data *Map);
 void			move_down(t_data *Map);
 void			move_left(t_window *win, t_data *map);
 void			move_right(t_window *win, t_data *map);
-void	turn_left(t_window *win);
-void	turn_right(t_window *win);
+void			turn_left(t_window *win);
+void			turn_right(t_window *win);
 
 // textures.c
 void			load_images(int i, int j, t_window *img);

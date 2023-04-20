@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/19 20:52:19 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 19:22:52 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,28 @@ int	RGB(int r, int g, int b, int a)
 
 int	start_drawing(t_data *map)
 {
-	// mlx_clear_window(map->mlx, map->mlx_win);
-	// load_textures(map);
+	int	i;
+	int	j;
+
 	if (map->img->img)
 		mlx_destroy_image(map->mlx, map->img->img);
-	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH,
+			MAX_WINDOW_HEIGHT);
 	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp,
-		&map->img->line_length, &map->img->endian);
-//	printf("hi2\n");
+			&map->img->line_length, &map->img->endian);
 	raycaster(map, map->win);
-	// leaks();
-	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	draw_buffer(map, map->win->buffer);
-	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	i = 0;
+	while (i < MAX_WINDOW_HEIGHT)
 	{
-		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+		j = 0;
+		while (j < MAX_WINDOW_WIDTH)
 		{
 			map->win->buffer[i][j] = 0;
+			j++;
 		}
+		i++;
 	}
-	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
-	//mlx_destroy_image(map->mlx, map->img->img);
 	return (0);
 }
 
@@ -225,27 +226,27 @@ void	get_map_square(t_window *win)
 	win->map_y = (int)win->pos_y;
 }
 
-void	calculate_deltadist(t_window *win)
+void	calculate_deltadist_x(t_window *win)
 {
-	// // calculate length of ray from one x or y-side
-	// if (win->raydir_x == 0)
-	// 	win->deltadist_x = 0;
-	// else
-	// 	win->deltadist_x = fabs(1 / win->raydir_x);
-
 	win->deltadist_x = DBL_MAX;
 	if (win->deltadist_x)
 		win->deltadist_x = fabs(1.0 / win->raydir_x);
+}
+
+void	calculate_deltadist_y(t_window *win)
+{
 	win->deltadist_y = DBL_MAX;
 	if (win->deltadist_y)
 		win->deltadist_y = fabs(1.0 / win->raydir_y);
+}
 
-	// Calculate step and initial sideDist
+void	calculate_deltadist(t_window *win)
+{
+	calculate_deltadist_x(win);
+	calculate_deltadist_y(win);
 	if (win->raydir_x < 0)
 	{
-		// what direction to step in x or y-direction (either +1 or -1)
 		win->step_x = -1;
-		// length of ray from current position to next x or y-side
 		win->sidedist_x = (win->pos_x - win->map_x) * win->deltadist_x;
 	}
 	else
@@ -349,7 +350,8 @@ void	calculate_x_on_texture(t_window *win, t_data *map)
 	win->step = 1.0 * map->texture_img->img_height / win->lineheight;
 
 	// starting texture coordinate
-	win->tex_pos = (win->drawstart - MAX_WINDOW_HEIGHT / 2 + win->lineheight / 2) * win->step;
+	win->tex_pos = (win->drawstart - MAX_WINDOW_HEIGHT / 2
+			+ win->lineheight / 2) * win->step;
 }
 
 void	draw_floor_ceiling(t_window *win, t_data *map, int x)
@@ -360,13 +362,15 @@ void	draw_floor_ceiling(t_window *win, t_data *map, int x)
 	// Set floor and ceiling colors in buffer
 	while (y < win->drawstart)
 	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
+		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r,
+				map->color->ceiling_g, map->color->ceiling_b, 125);
 		y++;
 	}
 	y = win->drawend;
 	while (y < MAX_WINDOW_HEIGHT)
 	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
+		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r,
+				map->color->floor_g, map->color->floor_b, 125);
 		y++;
 	}
 }
@@ -382,7 +386,8 @@ void	draw_vertical_line(t_window *win, t_data *map, int x)
 		win->tex_y = (int)win->tex_pos & (map->texture_img->img_height - 1);
 		//printf("tex_x : %d, tex_y : %d\n", win->tex_x, win->tex_y);
 		win->tex_pos += win->step;
-		map->color->color = get_tex_pixel(map->texture_img, win->tex_x, win->tex_y);
+		map->color->color = get_tex_pixel(map->texture_img, win->tex_x,
+				win->tex_y);
 		if (win->side == 1)
 			map->color->color = (map->color->color >> 1) & 8355711;
 		win->buffer[y][x]= map->color->color;

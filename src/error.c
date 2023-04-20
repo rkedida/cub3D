@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:18:51 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 03:47:11 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 19:32:00 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ void	error_exit(char *message)
 	{
 		write(2, "Error: UNKNOWN", 14);
 		exit(EXIT_FAILURE);
+	}
+}
+
+void	error_prints(void *mlx, int num)
+{
+	static const char	*errors[] = {A, B};
+
+	if (!mlx)
+	{
+		exit(EXIT_FAILURE);
+		write (2, errors[num - 1], ft_strlen(errors[num - 1]));
 	}
 }
 
@@ -47,4 +58,12 @@ void	ft_free(void **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_map(t_data *map)
+{
+	free(map->texture);
+	free(map->win);
+	free(map->color);
+	ft_free((void **)map->map);
 }
