@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/20 18:36:56 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 01:05:38 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ bool			check_surrounded_walls(t_data *map);
 // validate_map.c
 // void			check_floor_rgbs(int i, t_data *map);
 // void			check_ceiling_rgbs(int i, t_data *map);
+bool			check_flags(t_texture *texture);
 void			validate_map(t_data *map, t_texture *texture);
 
 // compass_direction.c
@@ -184,6 +185,7 @@ void			read_append_split_file(t_data *map);
 void			load_configuration_file(t_data *map);
 
 // parsing.c
+int				RGB(int r, int g, int b, int a);
 void			parsing_input(t_data *map, int ac, char **av);
 void			parsing(int ac, char **av, t_data *map);
 
@@ -219,5 +221,39 @@ void			load_images(int i, int j, t_window *img);
 int				load_texture(t_data *map, char *path, t_img *img);
 int				load_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
+
+// player_position.c
+void			set_player_pos(t_data *map, int i, int j);
+void			set_player_direction_north(t_data *map);
+void			set_player_direction_south(t_data *map);
+void			set_player_direction_west(t_data *map);
+void			set_player_direction_east(t_data *map);
+
+// handle_direction.c
+void			handle_north(t_data *map, t_texture *texture, int i, int j);
+void			handle_south(t_data *map, t_texture *texture, int i, int j);
+void			handle_west(t_data *map, t_texture *texture, int i, int j);
+void			handle_east(t_data *map, t_texture *texture, int i, int j);
+
+// raycasting.c
+int				RGB(int r, int g, int b, int a);
+int				start_drawing(t_data *map);
+void			update_camera_ray_direction(t_window *win, int x);
+void			get_map_square(t_window *win);
+void			calculate_deltadist_x(t_window *win);
+
+// raycasting_ii.c
+void			calculate_deltadist_y(t_window *win);
+void			calculate_deltadist(t_window *win);
+void			perform_dda(t_window *win, t_data *map);
+void			calculate_wall_distance(t_window *win);
+void			calculate_wall_height(t_window *win);
+
+// raycasting_iii.c
+void			get_texture_color(t_window *win, t_data *map);
+void			calculate_wall_x(t_window *win);
+void			calculate_x_on_texture(t_window *win, t_data *map);
+void			draw_floor_ceiling(t_window *win, t_data *map, int x);
+void			draw_vertical_line(t_window *win, t_data *map, int x);
 
 #endif

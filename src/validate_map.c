@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/20 19:33:23 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 00:13:01 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,84 +17,19 @@ bool	check_flags(t_texture *texture)
 	if (!texture->found_no && !texture->found_so && !texture->found_we
 		&& !texture->found_ea)
 		return (true);
-	// else
-	// 	error_exit("Only one Player Direction allowed.");
 	return (false);
-}
-
-void	set_player_pos(t_data *map, int i, int j)
-{
-	map->win->pos_y = i;
-	map->win->pos_x = j;
-
-	if (map->maps[i][j] == 'N')
-	{
-		map->win->dir_x = 0;
-		map->win->dir_y = -1;
-		map->win->plane_x = 1;
-		map->win->plane_y = 0;
-	}
-	if (map->maps[i][j] == 'S')
-	{
-		map->win->dir_x = 0;
-		map->win->dir_y = 1;
-		map->win->plane_x = -1;
-		map->win->plane_y = 0;
-	}
-	if (map->maps[i][j] == 'W')
-	{
-		map->win->dir_x = -1;
-		map->win->dir_y = 0;
-		map->win->plane_x = 0;
-		map->win->plane_y = 1;
-	}
-	if (map->maps[i][j] == 'E')
-	{
-		map->win->dir_x = 1;
-		map->win->dir_y = 0;
-		map->win->plane_x = 0;
-		map->win->plane_y = -1;
-	}
 }
 
 void	track_map_data(t_data *map, t_texture *texture, int i, int j)
 {
 	if (map->maps[i][j] == 'N')
-	{
-		if (check_flags(texture))
-			texture->found_no++;
-		else
-			error_exit("Only one Player Direction allowed.");
-		set_player_pos(map, i, j);
-		// map->maps[i][j] = '0';
-	}
+		handle_north(map, texture, i, j);
 	else if (map->maps[i][j] == 'S')
-	{
-		if (check_flags(texture))
-			texture->found_so++;
-		else
-			error_exit("Only one Player Direction allowed.");
-		set_player_pos(map, i, j);
-		// map->maps[i][j] = '0';
-	}
+		handle_south(map, texture, i, j);
 	else if (map->maps[i][j] == 'W')
-	{
-		if (check_flags(texture))
-			texture->found_we++;
-		else
-			error_exit("Only one Player Direction allowed.");
-		set_player_pos(map, i, j);
-		// map->maps[i][j] = '0';
-	}
+		handle_west(map, texture, i, j);
 	else if (map->maps[i][j] == 'E')
-	{
-		if (check_flags(texture))
-			texture->found_ea++;
-		else
-			error_exit("Only one Player Direction allowed.");
-		set_player_pos(map, i, j);
-		// map->maps[i][j] = '0';
-	}
+		handle_east(map, texture, i, j);
 }
 
 void	check_map_syntax(t_data *map, t_texture *texture)
@@ -129,5 +64,4 @@ void	validate_map(t_data *map, t_texture *texture)
 	check_map_syntax(map, texture);
 	if (check_surrounded_walls(map) == false)
 		error_exit("Map not closed");
-	// printf("%d - rows ==== %d - cols\n", map->player_pos[0], map->player_pos[1]);
 }

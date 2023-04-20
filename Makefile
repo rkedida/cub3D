@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+         #
+#    By: sheali <sheali@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/04/17 00:22:14 by rkedida          ###   ########.fr        #
+#    Updated: 2023/04/21 00:23:47 by sheali           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME			=	cub3D
 
 SRC				=	$(SRC_DIR)/main.c\
 					$(SRC_DIR)/parsing.c\
+					$(SRC_DIR)/player_position.c\
+					$(SRC_DIR)/handle_direction.c\
 					$(SRC_DIR)/load_configuration_file.c\
 					$(SRC_DIR)/validate_map.c\
 					$(SRC_DIR)/dfs_search.c\
@@ -24,6 +26,8 @@ SRC				=	$(SRC_DIR)/main.c\
 					$(SRC_DIR)/compass_direction.c\
 					$(SRC_DIR)/parsing_config_info.c\
 					$(SRC_DIR)/raycasting.c\
+					$(SRC_DIR)/raycasting_ii.c\
+					$(SRC_DIR)/raycasting_iii.c\
 					
 
 SRC_DIR			=	./src

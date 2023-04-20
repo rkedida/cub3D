@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/20 19:32:14 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 00:14:45 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@ int	load_texture(t_data *map, char *path, t_img *img)
 	int	height;
 
 	printf("path: %s \n", path);
-
 	width = 0;
 	height = 0;
 	img->img = mlx_xpm_file_to_image(map->mlx, path, &width, &height);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length,
 			&img->endian);
-	// printf("addr: %p, bpp: %d, line_length: %d, endian: %d \n", img->addr, img->bpp, img->line_length, img->endian);
 	img->img_width = width;
 	img->img_height = height;
 	return (0);
