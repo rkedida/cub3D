@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/07 19:22:45 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/12 04:03:03 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	track_map_data(t_data *map, t_texture *texture, int i, int j)
 		else
 			error_exit("Only one Player Direction allowed.");
 		set_player_pos(map, i, j);
-		map->maps[i][j] = '0';
+		// map->maps[i][j] = '0';
 	}
 	else if (map->maps[i][j] == 'S')
 	{
@@ -74,7 +74,7 @@ void	track_map_data(t_data *map, t_texture *texture, int i, int j)
 		else
 			error_exit("Only one Player Direction allowed.");
 		set_player_pos(map, i, j);
-		map->maps[i][j] = '0';
+		// map->maps[i][j] = '0';
 	}
 	else if (map->maps[i][j] == 'W')
 	{
@@ -83,7 +83,7 @@ void	track_map_data(t_data *map, t_texture *texture, int i, int j)
 		else
 			error_exit("Only one Player Direction allowed.");
 		set_player_pos(map, i, j);
-		map->maps[i][j] = '0';
+		// map->maps[i][j] = '0';
 	}
 	else if (map->maps[i][j] == 'E')
 	{
@@ -92,7 +92,7 @@ void	track_map_data(t_data *map, t_texture *texture, int i, int j)
 		else
 			error_exit("Only one Player Direction allowed.");
 		set_player_pos(map, i, j);
-		map->maps[i][j] = '0';
+		// map->maps[i][j] = '0';
 	}
 }
 
@@ -128,5 +128,5 @@ void	validate_map(t_data *map, t_texture *texture)
 	check_map_syntax(map, texture);
 	if (check_surrounded_walls(map) == false)
 		error_exit("Map not closed");
-	printf("%d - rows ==== %d - cols\n", map->player_pos[0], map->player_pos[1]);
+	// printf("%d - rows ==== %d - cols\n", map->player_pos[0], map->player_pos[1]);
 }

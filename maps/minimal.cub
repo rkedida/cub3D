@@ -1,9 +1,9 @@
-NO ./xpm/ground1.xpm
-SO ./xpm/collectible1.xpm
-WE ./xpm/exit1.xpm
-EA ./xpm/ground1.xpm
-F 220,100,0
-C 225,30,0
+NO ./xpm/eagle.xpm
+SO ./xpm/bluestone.xpm
+WE ./xpm/redbrick.xpm
+EA ./xpm/wood.xpm
+F 125,125,0
+C 0,255,255
 111111111111111111111111111111111111111
 100000000000000000000000000000000000001
 100000000000000000000000000000000000001
