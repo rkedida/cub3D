@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/17 23:17:53 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 16:48:18 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	load_textures(t_data *map)
 {
 	// if (!map->texture)
 	map->texture->north_tex = malloc(sizeof(t_img));
+	printf("here load_textures\n");
 	ft_memset(map->texture->north_tex, 0, sizeof(t_img));
 	if (!map->texture->north_tex)
 		error_exit("Error allocating memory for north texture.");

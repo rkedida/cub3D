@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/19 20:59:28 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/20 17:13:34 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ t_window	*init_window_struct(void)
 	win = malloc(sizeof(t_window));
 	if (!win)
 		error_exit("window struct init failed.");
+
+	return (win);
+}
+
+void	set_windows_members1(t_window *win)
+{
 	win->map_x = 0;
 	win->map_y = 0;
 	win->pos_x = 0.0;
@@ -72,6 +78,10 @@ t_window	*init_window_struct(void)
 	win->drawstart = 0;
 	win->drawend = 0;
 	win->wall_x = 0.0;
+}
+
+void	set_windows_members2(t_window *win)
+{
 	win->tex_x = 0;
 	win->tex_y = 0;
 	win->step = 0.0;
@@ -81,8 +91,6 @@ t_window	*init_window_struct(void)
 	win->frame_time = 0.0;
 	win->move_speed = 0.0;
 	win->rot_speed = 0.0;
-
-	return (win);
 }
 
 t_img	*init_img_struct(void)
@@ -151,41 +159,9 @@ void	leaks(void)
 	system("leaks cub3D");
 }
 
-int	main(int ac, char **av)
+void	check_n_free(t_data *map)
 {
-	t_data	*map;
-
-	leaks();
-	atexit(leaks);
-	// (void)ac;
-	// (void)av;
-	// ft_memset(&map, 0, sizeof(map));
-	map = init_map_struct();
-	map->win = init_window_struct();
-	map->texture = init_texture_struct();
-	map->color = init_color_struct();
-	map->img = init_img_struct();
-	parsing(ac, av, map);
-
-	map->mlx = mlx_init();
-	if (!map->mlx)
-		error_exit("mlx_init() failed\n");
-	map->mlx_win = mlx_new_window(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT, "cub3D");
-	if (!map->mlx_win)
-		error_exit("mlx_new_window() failed\n");
-	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
-	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
-
-
-	load_textures(map);
-	// start_drawing(map);
-	// printf("hi\n");
-	mlx_loop_hook(map->mlx, &start_drawing, map);
-	mlx_key_hook(map->mlx_win, &handle_keypress, map);
-	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
-	mlx_loop(map->mlx);
-
-
+	printf("here initialize\n");
 	if (map->texture->north_tex != NULL)
 		free(map->texture->north_tex);
 	if (map->texture->south_tex != NULL)
@@ -195,7 +171,6 @@ int	main(int ac, char **av)
 	if (map->texture->east_tex != NULL)
 		free(map->texture->east_tex);
 	// mlx_destroy_image(map->mlx, map->img->img);
-
 	if (map->texture->north_path != NULL)
 		ft_free((void **)map->texture->north_path);
 	if (map->texture->south_path != NULL)
@@ -208,12 +183,56 @@ int	main(int ac, char **av)
 		ft_free((void **)map->texture->floor);
 	if (map->texture->ceiling != NULL)
 		ft_free((void **)map->texture->ceiling);
+}
 
+void	initialize(int ac, char **av, t_data *map)
+{
+	map = init_map_struct();
+	map->win = init_window_struct();
+	set_windows_members1(map->win);
+	set_windows_members2(map->win);
+	map->texture = init_texture_struct();
+	map->color = init_color_struct();
+	map->img = init_img_struct();
+	parsing(ac, av, map);
+	map->mlx = mlx_init();
+	if (!map->mlx)
+		error_exit("mlx_init() failed\n");
+	map->mlx_win = mlx_new_window(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT, "cub3D");
+	if (!map->mlx_win)
+		error_exit("mlx_new_window() failed\n");
+	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT);
+	map->img->addr = mlx_get_data_addr(map->img->img, &map->img->bpp, &map->img->line_length, &map->img->endian);
+	load_textures(map);
+	mlx_loop_hook(map->mlx, &start_drawing, map);
+	mlx_key_hook(map->mlx_win, &handle_keypress, map);
+	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
+	mlx_loop(map->mlx);
+	check_n_free(map);
 	free(map->texture);
-	// free(map->img);
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
 	free(map);
+}
+
+int	main(int ac, char **av)
+{
+	t_data	*map;
+
+	map = NULL;
+//	leaks();
+	atexit(leaks);
+	initialize(ac, av, map);
+	printf("here initialize\n");
+	// start_drawing(map);
+	// printf("hi\n");
+	check_n_free(map);
+	//free(map->texture);
+	// free(map->img);
+	//free(map->win);
+	//free(map->color);
+	//ft_free((void **)map->map);
+	//free(map);
 	return (0);
 }
