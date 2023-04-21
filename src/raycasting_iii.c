@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 01:39:04 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 22:05:39 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,61 @@ void	calculate_x_on_texture(t_window *win, t_data *map)
 			+ win->lineheight / 2) * win->step;
 }
 
+// void	draw_floor_ceiling(t_window *win, t_data *map, int x)
+// {
+// 	int	y;
+
+// 	y = 0;
+// 	printf("win->drawend: %d\n", win->drawend);
+// 	printf("win->drawstart: %d\n", win->drawstart);
+// 	// Set floor and ceiling colors in buffer
+// 	while (y < win->drawstart)
+// 	{
+// 		// printf("y: %d\n", y);
+// 		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r,
+// 				map->color->ceiling_g, map->color->ceiling_b, 125);
+// 		y++;
+// 	}
+// 	// printf("win->drawend: %d\n", win->drawend);
+// 	y = win->drawend;
+// 	while (y < MAX_WINDOW_HEIGHT)
+// 	{
+// 		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r,
+// 				map->color->floor_g, map->color->floor_b, 125);
+// 		y++;
+// 	}
+// 	// printf("here! draw_floor_ceiling\n");
+// }
+
 void	draw_floor_ceiling(t_window *win, t_data *map, int x)
 {
 	int	y;
 
 	y = 0;
-	// Set floor and ceiling colors in buffer
-	while (y < win->drawstart)
+	if (win && win->drawend && win->drawstart)
 	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r,
-				map->color->ceiling_g, map->color->ceiling_b, 125);
-		y++;
-	}
-	y = win->drawend;
-	while (y < MAX_WINDOW_HEIGHT)
-	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r,
-				map->color->floor_g, map->color->floor_b, 125);
-		y++;
+		while (y < win->drawstart)
+		{
+			if (map && map->color)
+			{
+				win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r,
+						map->color->ceiling_g, map->color->ceiling_b, 125);
+			}
+			y++;
+		}
+		y = win->drawend;
+		while (y < MAX_WINDOW_HEIGHT)
+		{
+			if (map && map->color)
+			{
+				win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r,
+						map->color->floor_g, map->color->floor_b, 125);
+			}
+			y++;
+		}
 	}
 }
+
 
 void	draw_vertical_line(t_window *win, t_data *map, int x)
 {
