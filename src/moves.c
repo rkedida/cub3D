@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 01:36:44 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/21 18:15:54 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	move_forward(t_data *map, t_window *win)
 {
-	if (map->maps[((int)(win->pos_y + win->dir_y))][((int)(win->pos_x))] != '1')
+	if (map->maps[((int)(win->pos_y + win->dir_y))][((int)(win->pos_x
+		+ win->dir_x))] != '1')
 	{
+		win->pos_x += win->dir_x;
 		win->pos_y += win->dir_y;
 	}
 }
