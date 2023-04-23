@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 04:03:03 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 15:04:19 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,42 @@ bool	check_flags(t_texture *texture)
 
 void	set_player_pos(t_data *map, int i, int j)
 {
-		map->win->pos_y = i;
-		map->win->pos_x = j;
 
 		if (map->maps[i][j] == 'N')
 		{
-			map->win->dir_x = 0;
-			map->win->dir_y = -1;
-			map->win->plane_x = 1;
-			map->win->plane_y = 0;
-		}
-		if (map->maps[i][j] == 'S')
-		{
-			map->win->dir_x = 0;
-			map->win->dir_y = 1;
-			map->win->plane_x = -1;
-			map->win->plane_y = 0;
-		}
-		if (map->maps[i][j] == 'W')
-		{
+			map->win->pos_y = i;
+			map->win->pos_x = j;
 			map->win->dir_x = -1;
 			map->win->dir_y = 0;
 			map->win->plane_x = 0;
 			map->win->plane_y = 1;
 		}
-		if (map->maps[i][j] == 'E')
+		if (map->maps[i][j] == 'S')
 		{
+			map->win->pos_y = (double)i;
+			map->win->pos_x = (double)j;
 			map->win->dir_x = 1;
 			map->win->dir_y = 0;
 			map->win->plane_x = 0;
 			map->win->plane_y = -1;
+		}
+		if (map->maps[i][j] == 'W')
+		{
+			map->win->pos_y = i;
+			map->win->pos_x = j;
+			map->win->dir_x = 0;
+			map->win->dir_y = -1;
+			map->win->plane_x = -1;
+			map->win->plane_y = 0;
+		}
+		if (map->maps[i][j] == 'E')
+		{
+			map->win->pos_y = i;
+			map->win->pos_x = j;
+			map->win->dir_x = 0;
+			map->win->dir_y = 1;
+			map->win->plane_x = 1;
+			map->win->plane_y = 0;
 		}
 }
 

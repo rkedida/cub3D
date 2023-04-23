@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/19 20:52:19 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 13:37:06 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	RGB(int r, int g, int b, int a)
 
 int	start_drawing(t_data *map)
 {
-	// mlx_clear_window(map->mlx, map->mlx_win);
+	mlx_clear_window(map->mlx, map->mlx_win);
 	// load_textures(map);
 	if (map->img->img)
 		mlx_destroy_image(map->mlx, map->img->img);
@@ -33,13 +33,13 @@ int	start_drawing(t_data *map)
 	// leaks();
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	draw_buffer(map, map->win->buffer);
-	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
-		{
-			map->win->buffer[i][j] = 0;
-		}
-	}
+	// for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	// {
+	// 	for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+	// 	{
+	// 		map->win->buffer[i][j] = 0;
+	// 	}
+	// }
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	//mlx_destroy_image(map->mlx, map->img->img);
 	return (0);
@@ -358,16 +358,25 @@ void	draw_floor_ceiling(t_window *win, t_data *map, int x)
 
 	y = 0;
 	// Set floor and ceiling colors in buffer
-	while (y < win->drawstart)
+	if (win && win->drawend && win->drawstart)
 	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
-		y++;
-	}
-	y = win->drawend;
-	while (y < MAX_WINDOW_HEIGHT)
-	{
-		win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
-		y++;
+		while (y < win->drawstart)
+		{
+			if (map && map->color)
+			{
+				win->buffer[y][x] = (unsigned int)RGB(map->color->ceiling_r, map->color->ceiling_g, map->color->ceiling_b, 125);
+				y++;
+			}
+		}
+		y = win->drawend;
+		while (y < MAX_WINDOW_HEIGHT)
+		{
+			if (map && map->color)
+			{
+				win->buffer[y][x] = (unsigned int)RGB(map->color->floor_r, map->color->floor_g, map->color->floor_b, 125);
+				y++;
+			}
+		}
 	}
 }
 
@@ -414,13 +423,14 @@ int	raycaster(t_data *map, t_window *win)
 	// timinig for input and FPS counter
 	// win->old_time = win->time;
 	// win->time = clock();
-	// win->frame_time = (win->time - win->old_time) / 1000.0;
+	// win->frame_time = (win->time - win->old_time) / 100.0;
 	// printf("%f\n", 1.0 / win->frame_time); // FPS counter
 
 	// // speed modifiers
-	// win->move_speed = win->frame_time * 5;
-	// win->rot_speed = win->frame_time * 3;
-	win->rot_speed = 0.1;
+	win->move_speed = 0.1;
+	// win->move_speed = win->frame_time * 0.2;
+	// win->rot_speed = win->frame_time * 0.1;
+	win->rot_speed = 0.05;
 	return (0);
 }
 

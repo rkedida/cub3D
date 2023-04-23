@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/19 21:03:54 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 13:52:02 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-# define MAX_WINDOW_WIDTH 2560
-# define MAX_WINDOW_HEIGHT 1440
+# define MAX_WINDOW_WIDTH 1792
+# define MAX_WINDOW_HEIGHT 1120
 // # define RED 255,120,0
 
 
