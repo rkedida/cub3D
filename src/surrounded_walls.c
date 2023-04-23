@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 16:42:03 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 18:49:49 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ bool	check_surrounded_walls(t_data *map)
 		j = 0;
 		while (map->maps[i][j] != '\0')
 		{
-			printf("%c", map->maps[i][j]);
 			if (map->maps[i][j] == '0')
 			{
 				if ((up(map, i, j) == true) && (down(map, i, j) == true)
@@ -92,7 +91,6 @@ bool	check_surrounded_walls(t_data *map)
 			}
 			j++;
 		}
-		printf("\n");
 		i++;
 	}
 	return (true);

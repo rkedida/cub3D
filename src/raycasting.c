@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 17:04:14 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/23 20:19:25 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	start_drawing(t_data *map)
 	// leaks();
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	draw_buffer(map, map->win->buffer);
-	// for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
-	// {
-	// 	for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
-	// 	{
-	// 		map->win->buffer[i][j] = 0;
-	// 	}
-	// }
+	for (int i = 0; i < MAX_WINDOW_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAX_WINDOW_WIDTH; j++)
+		{
+			map->win->buffer[i][j] = 0;
+		}
+	}
 	// mlx_put_image_to_window(map->mlx, map->mlx_win, map->img->img, 0, 0);
 	//mlx_destroy_image(map->mlx, map->img->img);
 	return (0);
@@ -284,7 +284,7 @@ void	perform_dda(t_window *win, t_data *map)
 			win->map_y += win->step_y;
 			win->side = 1;
 		}
-		if (map->map[win->map_y][win->map_x] == '1')
+		if (win->map_x < 0 || win->map_y < 0 || win->map_x > MAX_WINDOW_WIDTH || win->map_y > MAX_WINDOW_HEIGHT || map->maps[win->map_y][win->map_x] == '1')
 			win->hit = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 13:59:35 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 18:53:34 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ void	parsing_config_info(t_data *map, t_texture *texture)
 	i = 0;
 	while (map->map[i] != NULL)
 	{
-		printf("%s\n", map->map[i]);
 		check_compass_direction_in_file(i, map, texture);
 		check_floor_rgbs(i, map, texture);
 		check_ceiling_rgbs(i, map, texture);
@@ -175,8 +174,8 @@ void	parsing_config_info(t_data *map, t_texture *texture)
 			break ;
 		i++;
 	}
-	if (map->color == NULL)
-		error_exit("map->color is NULL");
+	// if (map->color == NULL)
+	// 	error_exit("map->color is NULL");
 	if (texture->north_path == NULL && texture->south_path == NULL \
 		&& texture->west_path == NULL && texture->east_path == NULL \
 		&& texture->floor == NULL && texture->ceiling == NULL)
