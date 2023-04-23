@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 13:37:06 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 17:04:14 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,7 @@ int	raycaster(t_data *map, t_window *win)
 	// printf("%f\n", 1.0 / win->frame_time); // FPS counter
 
 	// // speed modifiers
-	win->move_speed = 0.1;
+	win->move_speed = 1;
 	// win->move_speed = win->frame_time * 0.2;
 	// win->rot_speed = win->frame_time * 0.1;
 	win->rot_speed = 0.05;

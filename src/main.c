@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 13:49:07 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/23 16:56:34 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,8 @@ int	main(int ac, char **av)
 	// start_drawing(map);
 	// printf("hi\n");
 	mlx_loop_hook(map->mlx, &start_drawing, map);
-	mlx_key_hook(map->mlx_win, &handle_keypress, map);
+	mlx_hook(map->mlx_win, 2, 0, &handle_keypress, map);
+	// mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_loop(map->mlx);
 
