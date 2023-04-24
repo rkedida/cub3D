@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 01:35:35 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 14:30:03 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ t_data	*init_map_struct(void)
 		error_exit("map struct init failed.");
 	map->mlx = NULL;
 	map->mlx_win = NULL;
-	// input parsing
 	map->map_path = NULL;
 	map->check = NULL;
 	map->result = 0;
-	// open and read
 	map->fd = 0;
 	map->read_bytes = 0;
 	map->map = NULL;

@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:18:51 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/20 19:32:00 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 14:23:19 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,8 @@ void	free_map(t_data *map)
 	free(map->win);
 	free(map->color);
 	ft_free((void **)map->map);
+	map->texture = NULL;
+	map->win = NULL;
+	map->color = NULL;
+	map->map = NULL;
 }

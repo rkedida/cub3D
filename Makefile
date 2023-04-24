@@ -6,7 +6,7 @@
 #    By: sheali <sheali@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/04/21 01:32:38 by sheali           ###   ########.fr        #
+#    Updated: 2023/04/24 14:26:51 by sheali           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ INCLUDES		=	-I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(GNL_DIR) -I$(FTPRINTF_D
 OBJ				=	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-g -Wall -Wextra -Werror
 
 MLX_LIB			=	-L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 LIBFT_LIB		=	$(LIBFT_DIR)/libft.a

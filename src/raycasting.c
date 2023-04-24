@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 00:49:10 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 14:31:06 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	start_drawing(t_data *map)
 
 void	update_camera_ray_direction(t_window *win, int x)
 {
-	// calculate ray position and direction
 	win->camera_x = 2 * x / (double)MAX_WINDOW_WIDTH - 1;
 	win->raydir_x = win->dir_x + win->plane_x * win->camera_x;
 	win->raydir_y = win->dir_y + win->plane_y * win->camera_x;
@@ -49,7 +48,6 @@ void	update_camera_ray_direction(t_window *win, int x)
 
 void	get_map_square(t_window *win)
 {
-	// which box of the map we're in
 	win->map_x = (int)win->pos_x;
 	win->map_y = (int)win->pos_y;
 }
@@ -77,7 +75,6 @@ int	raycaster(t_data *map, t_window *win)
 		calculate_wall_x(win);
 		get_texture_color(win, map);
 		calculate_x_on_texture(win, map);
-	//printf("raycaster\n");
 		draw_floor_ceiling(win, map, x);
 		draw_vertical_line(win, map, x);
 		x++;

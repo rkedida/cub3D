@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/21 18:10:31 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 14:44:03 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void			read_append_split_file(t_data *map);
 void			load_configuration_file(t_data *map);
 
 // parsing.c
-int				RGB(int r, int g, int b, int a);
+int				rgb(int r, int g, int b, int a);
 void			parsing_input(t_data *map, int ac, char **av);
 void			parsing(int ac, char **av, t_data *map);
 
@@ -233,7 +233,7 @@ void			handle_west(t_data *map, t_texture *texture, int i, int j);
 void			handle_east(t_data *map, t_texture *texture, int i, int j);
 
 // raycasting.c
-int				RGB(int r, int g, int b, int a);
+int				rgb(int r, int g, int b, int a);
 int				start_drawing(t_data *map);
 void			update_camera_ray_direction(t_window *win, int x);
 void			get_map_square(t_window *win);
