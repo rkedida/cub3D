@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 15:14:46 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:27:43 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	raycaster(t_data *map, t_window *win)
 		draw_vertical_line(win, map, x);
 		x++;
 	}
-	win->rot_speed = 0.1;
+	win->move_speed = 0.03;
+	win->rot_speed = 0.03;
 	return (0);
 }
