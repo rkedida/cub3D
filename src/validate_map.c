@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 15:04:19 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/24 21:02:58 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	set_player_pos(t_data *map, int i, int j)
 		{
 			map->win->pos_y = i;
 			map->win->pos_x = j;
-			map->win->dir_x = -1;
+			map->win->dir_x = -1.000001;
 			map->win->dir_y = 0;
 			map->win->plane_x = 0;
-			map->win->plane_y = 1;
+			map->win->plane_y = 0.6;
 		}
 		if (map->maps[i][j] == 'S')
 		{
@@ -117,12 +117,14 @@ void	check_map_syntax(t_data *map, t_texture *texture)
 		j = 0;
 		while (map->maps[i][j] != '\0')
 		{
+			printf("%c", map->maps[i][j]);
 			if (ft_strchr("01NSWE ", map->maps[i][j]))
 				track_map_data(map, texture, i, j);
 			else
 				error_exit("Invalid character in Map.");
 			j++;
 		}
+		printf("\n");
 		i++;
 	}
 	if (check_flags(texture))

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 20:19:25 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/24 19:25:51 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,14 +315,14 @@ void	calculate_wall_height(t_window *win)
 
 void	get_texture_color(t_window *win, t_data *map)
 {
-	if (win->side == 0 && win->raydir_x > 0)
-		map->texture_img = map->texture->north_tex;
-	if (win->side == 0 && win->raydir_x < 0)
-		map->texture_img = map->texture->south_tex;
 	if (win->side == 1 && win->raydir_y < 0)
-		map->texture_img = map->texture->west_tex;
+		map->texture_img = map->texture->north_tex;
 	if (win->side == 1 && win->raydir_y > 0)
+		map->texture_img = map->texture->south_tex;
+	if (win->side == 0 && win->raydir_x > 0)
 		map->texture_img = map->texture->east_tex ;
+	if (win->side == 0 && win->raydir_x < 0)
+		map->texture_img = map->texture->west_tex;
 
 }
 
