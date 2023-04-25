@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 06:47:46 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 20:17:57 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,34 @@ void	ft_append(char **str, char c)
 	*str = new_str;
 }
 
+void	check_map_rest(char *line, int k, int j)
+{
+	int	map_started;
+
+	map_started = 0;
+	if (line[k] == '1' || line[k] == '0')
+		map_started = 1;
+	while (line[k])
+		k++;
+	k -= 1;
+	while (line[k] != '0' && line[k] != '1' && (line[k] == '\n'
+			|| line[k] == '\t' || line[k] == ' '))
+		k--;
+	while (line[k] && line[k] != '\0')
+	{
+		if ((k > j) && line[k] == '\n' && line[k - 1] == '\n')
+		{
+			printf("Error: Double newline detected in map\n");
+			exit(1);
+		}
+		k--;
+	}
+}
+
 void	check_map_breakage(char *line)
 {
 	int	k;
+	int	j;
 
 	k = 0;
 	if (!line[k])
@@ -47,15 +72,20 @@ void	check_map_breakage(char *line)
 		printf("Error: Map is empty\n");
 		exit(1);
 	}
-	while (line[k])
+	while ((line[k] >= 32 && line[k] <= 127) || line[k] == '\n')
 	{
-		if (line[k] == '\n' && line[k - 1] == '\n')
-		{
-			printf("Error: Double newline detected in map\n");
-			exit(1);
-		}
+		if (line[k] == 'C' && line[k + 1] == ' ' && (line[k + 2]
+				>= 48 && line[k + 2] <= 57))
+			k += 9;
+		if (line[k] == 'F' && line[k + 1] == ' ' && (line[k + 2]
+				>= 48 && line[k + 2] <= 57))
+			k += 9;
+		else if (line[k] == '1')
+			break ;
 		k++;
 	}
+	j = k;
+	check_map_rest(line, k, j);
 }
 
 void	read_append_split_file(t_data *map)
@@ -78,10 +108,4 @@ void	read_append_split_file(t_data *map)
 	free(buf);
 	free(line);
 	close(map->fd);
-}
-
-void	load_configuration_file(t_data *map)
-{
-	open_file(map);
-	read_append_split_file(map);
 }

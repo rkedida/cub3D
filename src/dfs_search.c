@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 15:09:35 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 20:18:16 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,10 @@ int	get_tex_pixel(t_img *texture, int x, int y)
 	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
 	color = *(unsigned int *)dst;
 	return (color);
+}
+
+void	load_configuration_file(t_data *map)
+{
+	open_file(map);
+	read_append_split_file(map);
 }
