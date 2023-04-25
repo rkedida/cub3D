@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 03:42:04 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 03:43:18 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 18:08:41 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	set_we_ea(t_data *map, int i, int j)
 {
 	if (map->maps[i][j] == 'W')
 	{
-		map->win->pos_y = (double)i;
+		map->win->pos_y = (double)i + 0.5;
 		map->win->pos_x = (double)j;
 		map->win->dir_x = -1.000001;
 		map->win->dir_y = 0;

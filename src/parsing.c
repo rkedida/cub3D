@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 20:36:46 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 21:24:13 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void	parsing_input(t_data *map, int ac, char **av)
 		if (map->result != 0)
 			error_exit("You don't have read permissons for the file.");
 	}
+}
+
+void	load_configuration_file(t_data *map)
+{
+	open_file(map);
+	read_append_split_file(map);
 }
 
 void	parsing(int ac, char **av, t_data *map)

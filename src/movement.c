@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 03:32:32 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 03:33:51 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 18:12:06 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void	move_left(t_window *win, t_data *map)
 	step_y = -win->dir_x * win->move_speed;
 	new_x = (int)(win->pos_x - step_x);
 	new_y = (int)(win->pos_y - step_y);
+	if (new_x < 0 || new_y < 0 || new_x > MAX_WINDOW_WIDTH || new_y > \
+			MAX_WINDOW_HEIGHT)
+		return ;
 	if (map->maps[new_y][new_x] != '1')
 	{
 		win->pos_x -= step_x;
@@ -75,6 +78,9 @@ void	move_right(t_window *win, t_data *map)
 	step_y = -win->dir_x * win->move_speed;
 	new_x = (int)(win->pos_x + step_x);
 	new_y = (int)(win->pos_y + step_y);
+	if (new_x < 0 || new_y < 0 || new_x > MAX_WINDOW_WIDTH || new_y > \
+			MAX_WINDOW_HEIGHT)
+		return ;
 	if (map->maps[new_y][new_x] != '1')
 	{
 		win->pos_x += step_x;

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 02:57:33 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 04:34:29 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 21:23:10 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,18 @@ void	draw_floor_ceiling(t_window *win, t_data *map, int x)
 
 int	get_tex_pixel(t_img *texture, int x, int y)
 {
-	int				color;
+	unsigned int	color;
 	char			*dst;
 
 	color = 0;
 	dst = NULL;
-	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
-	color = *(unsigned int *)dst;
+	if (texture != NULL && texture->addr != NULL && x >= 0 \
+		&& x < texture->img_width && y >= 0 && y < texture->img_height)
+	{
+		dst = texture->addr + (y * texture->line_length + x * \
+							(texture->bpp / 8));
+		color = *(unsigned int *)dst;
+	}
 	return (color);
 }
 

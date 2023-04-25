@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 06:28:38 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 20:38:37 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 
 # define MAX_WINDOW_WIDTH 2560
 # define MAX_WINDOW_HEIGHT 1440
+# define RED			0xFF0000
+# define GREEN			0x00FF7F
+# define BLUE			0x000080
+# define CORAL			0xFF7F50
+# define TURQUOISE		0x40E0D0
+# define YELLOW			0xFFDB58
 
 typedef struct s_key
 {
@@ -125,7 +131,6 @@ typedef struct s_texture
 	char					**east_path;
 	char					**floor;
 	char					**ceiling;
-
 	int						found_no;
 	int						found_so;
 	int						found_we;
@@ -219,15 +224,10 @@ void			parsing(int ac, char **av, t_data *map);
 t_data			*init_map_struct(void);
 t_window		*init_window_struct(void);
 t_img			*init_img_struct(void);
-t_img			*init_img_struct(void);
+t_texture		*init_texture_struct(void);
 t_color			*init_color_struct(void);
 
 // main.c
-t_data			*init_map_struct(void);
-t_window		*init_window_struct(void);
-t_img			*init_img_struct(void);
-t_texture		*init_texture_struct(void);
-t_color			*init_color_struct(void);
 void			leaks(void);
 
 // error.c
@@ -253,6 +253,7 @@ void			turn_right(t_window *win);
 // textures.c
 int				load_texture(t_data *map, char *path, t_img *img);
 int				load_textures(t_data *map);
+int				load_colors(t_data *map);
 void			free_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 
