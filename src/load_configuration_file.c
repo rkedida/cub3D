@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 05:42:36 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 06:47:46 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	check_map_breakage(char *line)
 	int	k;
 
 	k = 0;
+	if (!line[k])
+	{
+		printf("Error: Map is empty\n");
+		exit(1);
+	}
 	while (line[k])
 	{
 		if (line[k] == '\n' && line[k - 1] == '\n')
