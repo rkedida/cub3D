@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 20:38:37 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 21:44:55 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,7 @@ void			turn_right(t_window *win);
 
 // textures.c
 int				load_texture(t_data *map, char *path, t_img *img);
+void			set_textures(t_data *map);
 int				load_textures(t_data *map);
 int				load_colors(t_data *map);
 void			free_textures(t_data *map);

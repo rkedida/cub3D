@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 21:35:16 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 21:45:46 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	load_texture(t_data *map, char *path, t_img *img)
 	return (0);
 }
 
-int	load_textures(t_data *map)
+void	set_textures(t_data *map)
 {
 	map->texture->north_tex = malloc(sizeof(t_img));
 	ft_memset(map->texture->north_tex, 0, sizeof(t_img));
@@ -43,6 +43,11 @@ int	load_textures(t_data *map)
 		error_exit("Error allocating memory for west texture.");
 	map->texture->east_tex = malloc(sizeof(t_img));
 	ft_memset(map->texture->east_tex, 0, sizeof(t_img));
+}
+
+int	load_textures(t_data *map)
+{
+	set_textures(map);
 	if (!map->texture->east_tex)
 		error_exit("Error allocating memory for east texture.");
 	if (map->texture->north_path != NULL)
@@ -98,28 +103,4 @@ int	load_colors(t_data *map)
 	map->color->ceiling_g = 255;
 	map->color->ceiling_b = 127;
 	return (0);
-}
-
-void	free_textures(t_data *map)
-{
-	if (map->texture->north_tex != NULL)
-		free(map->texture->north_tex);
-	if (map->texture->south_tex != NULL)
-		free(map->texture->south_tex);
-	if (map->texture->west_tex != NULL)
-		free(map->texture->west_tex);
-	if (map->texture->east_tex != NULL)
-		free(map->texture->east_tex);
-	if (map->texture->north_path != NULL)
-		ft_free((void **)map->texture->north_path);
-	if (map->texture->south_path != NULL)
-		ft_free((void **)map->texture->south_path);
-	if (map->texture->west_path != NULL)
-		ft_free((void **)map->texture->west_path);
-	if (map->texture->east_path != NULL)
-		ft_free((void **)map->texture->east_path);
-	if (map->texture->floor != NULL)
-		ft_free((void **)map->texture->floor);
-	if (map->texture->ceiling != NULL)
-		ft_free((void **)map->texture->ceiling);
 }

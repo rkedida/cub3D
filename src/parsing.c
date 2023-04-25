@@ -6,11 +6,35 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/25 21:24:13 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 21:44:19 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	free_textures(t_data *map)
+{
+	if (map->texture->north_tex != NULL)
+		free(map->texture->north_tex);
+	if (map->texture->south_tex != NULL)
+		free(map->texture->south_tex);
+	if (map->texture->west_tex != NULL)
+		free(map->texture->west_tex);
+	if (map->texture->east_tex != NULL)
+		free(map->texture->east_tex);
+	if (map->texture->north_path != NULL)
+		ft_free((void **)map->texture->north_path);
+	if (map->texture->south_path != NULL)
+		ft_free((void **)map->texture->south_path);
+	if (map->texture->west_path != NULL)
+		ft_free((void **)map->texture->west_path);
+	if (map->texture->east_path != NULL)
+		ft_free((void **)map->texture->east_path);
+	if (map->texture->floor != NULL)
+		ft_free((void **)map->texture->floor);
+	if (map->texture->ceiling != NULL)
+		ft_free((void **)map->texture->ceiling);
+}
 
 void	parsing_input(t_data *map, int ac, char **av)
 {
