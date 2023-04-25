@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:18:51 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/12 03:47:11 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 06:27:43 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,10 @@ void	ft_free(void **str)
 		i++;
 	}
 	free(str);
+}
+
+void	turn_right(t_window *win)
+{
+	rotate_vector(&(win->dir_x), &(win->dir_y), win->rot_speed);
+	rotate_vector(&(win->plane_x), &(win->plane_y), win->rot_speed);
 }

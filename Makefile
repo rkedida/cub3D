@@ -3,27 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sheali <sheali@student.42.fr>              +#+  +:+       +#+         #
+#    By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/26 23:22:24 by rkedida           #+#    #+#              #
-#    Updated: 2023/04/23 17:02:34 by sheali           ###   ########.fr        #
+#    Updated: 2023/04/25 03:53:52 by rkedida          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	cub3D
 
 SRC				=	$(SRC_DIR)/main.c\
+					$(SRC_DIR)/init.c\
 					$(SRC_DIR)/parsing.c\
 					$(SRC_DIR)/load_configuration_file.c\
 					$(SRC_DIR)/validate_map.c\
-					$(SRC_DIR)/dfs_search.c\
+					$(SRC_DIR)/direction.c\
 					$(SRC_DIR)/error.c\
 					$(SRC_DIR)/surrounded_walls.c\
 					$(SRC_DIR)/textures.c\
 					$(SRC_DIR)/key_hook_manager.c\
+					$(SRC_DIR)/movement.c\
 					$(SRC_DIR)/compass_direction.c\
 					$(SRC_DIR)/parsing_config_info.c\
 					$(SRC_DIR)/raycasting.c\
+					$(SRC_DIR)/draw.c\
+					$(SRC_DIR)/calculate_wall_textures.c\
+					$(SRC_DIR)/dda.c\
 					
 
 SRC_DIR			=	./src

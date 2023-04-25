@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 18:49:49 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 01:37:06 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	left(t_data *map, int i, int j)
 		|| (map->maps[i][j - 1] != '\0' && map->maps[i][j - 1] == 'S') \
 		|| (map->maps[i][j - 1] != '\0' && map->maps[i][j - 1] == 'W') \
 		|| (map->maps[i][j - 1] != '\0' && map->maps[i][j - 1] == 'E'))
-		return (true);	
+		return (true);
 	return (false);
 }
 

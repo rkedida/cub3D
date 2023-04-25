@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/23 18:00:07 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 06:28:38 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,16 @@
 
 # define MAX_WINDOW_WIDTH 2560
 # define MAX_WINDOW_HEIGHT 1440
-// # define RED 255,120,0
 
+typedef struct s_key
+{
+	int					w;
+	int					a;
+	int					s;
+	int					d;
+	int					left;
+	int					right;
+}				t_key;
 
 typedef struct s_data
 {
@@ -44,6 +52,7 @@ typedef struct s_data
 	int					read_bytes;
 	char				**map;
 	char				**maps;
+	struct s_key		key;
 	struct s_color		*color;
 	struct s_window		*win;
 	struct s_img		*img;
@@ -62,6 +71,15 @@ typedef struct s_window
 	double				dir_y;
 	double				plane_x;
 	double				plane_y;
+	double				tex_pos;
+	double				move_speed;
+	double				rot_speed;
+	unsigned int		buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
+	struct s_ray		*ray;
+}				t_window;
+
+typedef struct s_ray
+{
 	double				camera_x;
 	double				raydir_x;
 	double				raydir_y;
@@ -82,13 +100,7 @@ typedef struct s_window
 	int					tex_y;
 	double				step;
 	double				tex_pos;
-	double				time;
-	double				old_time;
-	double				frame_time;
-	double				move_speed;
-	double				rot_speed;
-	unsigned int		buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH];
-}				t_window;
+}				t_ray;
 
 typedef struct s_img
 {
@@ -133,16 +145,32 @@ typedef struct s_color
 	unsigned int			color;
 }					t_color;
 
-void			move_forward(t_data *map, t_window *win);
-void			move_backward(t_data *map, t_window *win);
+// dda.c
+void			update_camera_ray_direction(t_window *win, int x);
+void			get_map_square(t_window *win);
+void			calculate_deltadist(t_window *win);
+void			calculate_sidedist(t_window *win);
+void			perform_dda(t_window *win, t_data *map);
+
+// calculate_wall_textures.c
+void			calculate_wall_distance(t_window *win);
+void			calculate_wall_height(t_window *win);
+void			get_texture_color(t_window *win, t_data *map);
+void			calculate_wall_x(t_window *win);
+void			calculate_x_on_texture(t_window *win, t_data *map);
+
+// draw.c
+void			draw_floor_ceiling(t_window *win, t_data *map, int x);
 int				get_tex_pixel(t_img *texture, int x, int y);
-bool			mlx_verline(t_data *map, int x, int y1, int y2, int color);
-int				raycaster(t_data *map, t_window *win);
+void			draw_vertical_line(t_window *win, t_data *map, int x);
+void			ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
 void			draw_buffer(t_data *map, \
-						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
-void			move(t_data *map);
+						uint32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
+
+// raycasting.c
+int				rgb(int r, int g, int b, int a);
+int				raycaster(t_data *map, t_window *win);
 int				start_drawing(t_data *map);
-void	ft_mlx_pixel_put(t_img *texture, int x, int y, int color);
 
 // surrounded _walls.c
 bool			up(t_data *map, int i, int j);
@@ -151,9 +179,17 @@ bool			left(t_data *map, int i, int j);
 bool			right(t_data *map, int i, int j);
 bool			check_surrounded_walls(t_data *map);
 
+// direction.c
+void			set_no_so(t_data *map, int i, int j);
+void			set_we_ea(t_data *map, int i, int j);
+void			set_player_pos(t_data *map, int i, int j);
+void			check_no_so(t_data *map, t_texture *texture, int i, int j);
+void			check_we_ea(t_data *map, t_texture *texture, int i, int j);
+
 // validate_map.c
-// void			check_floor_rgbs(int i, t_data *map);
-// void			check_ceiling_rgbs(int i, t_data *map);
+bool			check_flags(t_texture *texture);
+void			track_map_data(t_data *map, t_texture *texture, int i, int j);
+void			check_map_syntax(t_data *map, t_texture *texture);
 void			validate_map(t_data *map, t_texture *texture);
 
 // compass_direction.c
@@ -161,7 +197,8 @@ void			check_no(int i, t_data *map, t_texture *texture);
 void			check_so(int i, t_data *map, t_texture *texture);
 void			check_we(int i, t_data *map, t_texture *texture);
 void			check_ea(int i, t_data *map, t_texture *texture);
-void			check_compass_direction_in_file(int i, t_data *map, t_texture *texture);
+void			check_compass_direction_in_file(int i, t_data *map, \
+												t_texture *texture);
 
 // parsing_config_info.c
 void			check_floor_rgbs(int i, t_data *map, t_texture *texture);
@@ -178,6 +215,13 @@ void			load_configuration_file(t_data *map);
 void			parsing_input(t_data *map, int ac, char **av);
 void			parsing(int ac, char **av, t_data *map);
 
+// init.c
+t_data			*init_map_struct(void);
+t_window		*init_window_struct(void);
+t_img			*init_img_struct(void);
+t_img			*init_img_struct(void);
+t_color			*init_color_struct(void);
+
 // main.c
 t_data			*init_map_struct(void);
 t_window		*init_window_struct(void);
@@ -190,23 +234,26 @@ void			leaks(void);
 void			error_exit(char *message);
 void			*ft_malloc(void *str, size_t size);
 void			ft_free(void **str);
+void			turn_right(t_window *win);
 
-// dfs_search.c
-void			dfs(t_data *Map, int row, int col, bool **visited);
+// movement.c
+void			move_forward(t_data *map, t_window *win);
+void			move_backward(t_data *map, t_window *win);
+void			move_left(t_window *win, t_data *map);
+void			move_right(t_window *win, t_data *map);
 
 // key_hook_manager.c
 int				handle_keypress(int keycode, t_data *map);
-void			move_up(t_data *Map);
-void			move_down(t_data *Map);
-void			move_left(t_window *win, t_data *map);
-void			move_right(t_window *win, t_data *map);
-void	turn_left(t_window *win);
-void	turn_right(t_window *win);
+int				handle_keypress_release(int keycode, t_data *map);
+int				key_action(t_data *map);
+void			rotate_vector(double *x, double *y, double theta);
+void			turn_left(t_window *win);
+void			turn_right(t_window *win);
 
 // textures.c
-void			load_images(int i, int j, t_window *img);
 int				load_texture(t_data *map, char *path, t_img *img);
 int				load_textures(t_data *map);
+void			free_textures(t_data *map);
 int				cleanup_and_exit(t_data *map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 11:23:01 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 07:10:50 by rkedida          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ void	open_file(t_data *map)
 	map->fd = open(map->map_path, O_RDONLY);
 	if (map->fd == -1)
 		error_exit("Error opening file.");
+}
+
+void	check_map_breakage(char *line)
+{
+	int	k;
+
+	k = 0;
+	if (!line[k])
+		error_exit("Empty map file");
+	while (line[k])
+	{
+		if (line[k] == '\n' && line[k - 1] == '\n')
+			error_exit("Map file is broken");
+		k++;
+	}
 }
 
 void	ft_append(char **str, char c)
@@ -52,6 +67,7 @@ void	read_append_split_file(t_data *map)
 		ft_append(&line, buf[0]);
 		map->read_bytes = read(map->fd, buf, 1);
 	}
+	check_map_breakage(line);
 	map->map = ft_split(line, '\n');
 	free(buf);
 	free(line);
