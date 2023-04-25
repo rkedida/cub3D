@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:12:22 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 14:44:03 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 05:43:07 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ typedef struct s_color
 void			move_forward(t_data *map, t_window *win);
 void			move_backward(t_data *map, t_window *win);
 int				get_tex_pixel(t_img *texture, int x, int y);
-bool			mlx_verline(t_data *map, int x, int y1, int y2, int color);
 int				raycaster(t_data *map, t_window *win);
 void			draw_buffer(t_data *map, \
 						u_int32_t buffer[MAX_WINDOW_HEIGHT][MAX_WINDOW_WIDTH]);
