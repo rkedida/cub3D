@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 14:43:37 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 00:32:34 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	get_texture_color(t_window *win, t_data *map)
 {
-	if (win->side == 0 && win->raydir_x > 0)
-		map->texture_img = map->texture->north_tex;
-	if (win->side == 0 && win->raydir_x < 0)
-		map->texture_img = map->texture->south_tex;
 	if (win->side == 1 && win->raydir_y < 0)
-		map->texture_img = map->texture->west_tex;
+		map->texture_img = map->texture->north_tex;
 	if (win->side == 1 && win->raydir_y > 0)
+		map->texture_img = map->texture->south_tex;
+	if (win->side == 0 && win->raydir_x > 0)
 		map->texture_img = map->texture->east_tex;
+	if (win->side == 0 && win->raydir_x < 0)
+		map->texture_img = map->texture->west_tex;
 }
 
 void	calculate_wall_x(t_window *win)

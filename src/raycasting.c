@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 15:27:43 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 22:53:53 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	start_drawing(t_data *map)
 	int	i;
 	int	j;
 
+	mlx_clear_window(map->mlx, map->mlx_win);
 	if (map->img->img)
 		mlx_destroy_image(map->mlx, map->img->img);
 	map->img->img = mlx_new_image(map->mlx, MAX_WINDOW_WIDTH,
@@ -79,7 +80,7 @@ int	raycaster(t_data *map, t_window *win)
 		draw_vertical_line(win, map, x);
 		x++;
 	}
-	win->move_speed = 0.03;
+	win->move_speed = 0.3;
 	win->rot_speed = 0.03;
 	return (0);
 }

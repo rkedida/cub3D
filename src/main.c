@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:05 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 15:16:25 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/25 00:07:17 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	initialize(int ac, char **av, t_data *map)
 			&map->img->line_length, &map->img->endian);
 	load_textures(map);
 	mlx_loop_hook(map->mlx, &start_drawing, map);
-	mlx_key_hook(map->mlx_win, &handle_keypress, map);
 	mlx_hook(map->mlx_win, 17, 0L, cleanup_and_exit, map);
 	mlx_hook(map->mlx_win, 2, 0, &handle_keypress, map);
 	mlx_loop(map->mlx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_configuration_file.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkedida <rkedida@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/14 11:23:01 by rkedida          ###   ########.fr       */
+/*   Updated: 2023/04/25 05:42:36 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ void	ft_append(char **str, char c)
 	*str = new_str;
 }
 
+void	check_map_breakage(char *line)
+{
+	int	k;
+
+	k = 0;
+	while (line[k])
+	{
+		if (line[k] == '\n' && line[k - 1] == '\n')
+		{
+			printf("Error: Double newline detected in map\n");
+			exit(1);
+		}
+		k++;
+	}
+}
+
 void	read_append_split_file(t_data *map)
 {
 	char		*buf;
@@ -52,6 +68,7 @@ void	read_append_split_file(t_data *map)
 		ft_append(&line, buf[0]);
 		map->read_bytes = read(map->fd, buf, 1);
 	}
+	check_map_breakage(line);
 	map->map = ft_split(line, '\n');
 	free(buf);
 	free(line);

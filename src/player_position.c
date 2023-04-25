@@ -6,7 +6,7 @@
 /*   By: sheali <sheali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 23:11:09 by rkedida           #+#    #+#             */
-/*   Updated: 2023/04/24 19:26:41 by sheali           ###   ########.fr       */
+/*   Updated: 2023/04/24 23:10:41 by sheali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	set_player_pos(t_data *map, int i, int j)
 {
-	map->win->pos_y = i + 0.5;
-	map->win->pos_x = j + 0.5;
+	map->win->pos_y = (double)i + 0.5;
+	map->win->pos_x = (double)j + 0.5;
 	if (map->maps[i][j] == 'N')
 		set_player_direction_north(map);
 	else if (map->maps[i][j] == 'S')
