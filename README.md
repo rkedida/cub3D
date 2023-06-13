@@ -44,6 +44,8 @@ followed by all specific informations for each object in a strict order.
 
 ## Contributors
 This project was completed by:
+
 Robel Kedida @robelkedida
+
 Shettima Ali @Shetteemah
 
